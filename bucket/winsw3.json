@@ -16,7 +16,6 @@
       "hash": "D8D769535C36616808BEC286472E0F5EBCDB8D851375739FD1D36EDC80750D52"
     }
   },
-  "extract_dir": "WinSW",
   "bin": [
     "winsw.exe"
   ],
