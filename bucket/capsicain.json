@@ -2,6 +2,7 @@
   "version": "89",
   "description": "Keyboard configuration tool that re-maps keys and modifier-key-combos at a very low level",
   "homepage": "https://github.com/cajhin/capsicain",
+  "depends": "keyboard-interception",
   "architecture": {
     "64bit": {
       "url": "https://github.com/cajhin/capsicain/releases/download/v89/capsicain_v89.zip",
@@ -12,10 +13,6 @@
       "hash": "9DEE7980DA2438C83E25ADE2BB1B805EE196916C762745625644FA6B62B0FAF9"
     }
   },
-  "post_install": [
-    "install-interception\\install-interception.exe /uninstall",
-    "install-interception\\install-interception.exe /install"
-  ],
   "bin": [
     "capsicain.exe"
   ],
