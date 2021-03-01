@@ -15,12 +15,12 @@
   },
   "installer": {
     "script": [
-      "sudo \"$dir\\command line installer\\install-interception.exe\" /install"
+      "& sudo \"$dir\\command line installer\\install-interception.exe\" /install"
     ]
   },
   "uninstaller": {
     "script": [
-      "sudo \"$dir\\command line installer\\install-interception.exe\" /uninstall"
+      "& sudo \"$dir\\command line installer\\install-interception.exe\" /uninstall"
     ]
   },
   "checkver": "github",
