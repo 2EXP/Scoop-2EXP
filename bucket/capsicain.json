@@ -12,6 +12,10 @@
       "hash": "9DEE7980DA2438C83E25ADE2BB1B805EE196916C762745625644FA6B62B0FAF9"
     }
   },
+  "post_install": [
+    "install-interception\\install-interception.exe /uninstall",
+    "install-interception\\install-interception.exe /install"
+  ],
   "bin": [
     "capsicain.exe"
   ],
