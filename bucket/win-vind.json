@@ -25,6 +25,7 @@
       "win-vind"
     ]
   ],
+  "extract_dir": "win-vind",
   "persist": "config",
   "checkver": "github",
   "autoupdate": {
