@@ -1,13 +1,15 @@
 {
-  "version": "3.2.2",
+  "version": "6.1.6.2",
   "description": "基于 CUI 的 foobar2000 界面配置",
   "homepage": "https://github.com/dream7180/foobox-cn",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.2.zip"
+      "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.2.zip",
+      "hash": "B47F75261589CBC9C97A064294D8F4F62ED32546CA5014B6BE51FBCA9044AD0C"
     },
     "32bit": {
-      "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.2.zip"
+      "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.2.zip",
+      "hash": "B47F75261589CBC9C97A064294D8F4F62ED32546CA5014B6BE51FBCA9044AD0C"
     }
   },
   "bin": [
