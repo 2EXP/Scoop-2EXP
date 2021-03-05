@@ -21,7 +21,7 @@
       "Foobar2000"
     ]
   ],
-  "extract_dir": "foobox-cn-$version\\NSIS Source",
+  "extract_dir": "foobox-cn-6.1.6.2\\NSIS Source",
   "persist": [
     "configuration",
     "index-data",
@@ -55,6 +55,7 @@
   },
   "checkver": "github",
   "autoupdate": {
+    "extract_dir": "foobox-cn-$version\\NSIS Source",
     "architecture": {
       "64bit": {
         "url": "https://github.com/dream7180/foobox-cn/archive/$version.zip"
