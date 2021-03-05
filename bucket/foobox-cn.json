@@ -1,0 +1,65 @@
+{
+  "version": "3.2.2",
+  "description": "基于 CUI 的 foobar2000 界面配置",
+  "homepage": "https://github.com/dream7180/foobox-cn",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.2.zip"
+    },
+    "32bit": {
+      "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.2.zip"
+    }
+  },
+  "bin": [
+    "foobar2000.exe"
+  ],
+  "shortcuts": [
+    [
+      "foobar2000.exe",
+      "Foobar2000"
+    ]
+  ],
+  "extract_dir": "NSIS Source",
+  "persist": [
+    "configuration",
+    "index-data",
+    "library",
+    "playlists-v1.4",
+    "user-components",
+    "Lyrics",
+    "MusicArt"
+  ],
+  "pre_install": [
+    "Copy-Item \"$dir\\foobar2000-extra\\*\" \"$dir\\foobar2000-core\\\" -Recurse -Force",
+    "Get-ChildItem -Path \"$dir\\\" -Exclude \"foobar2000-core\" | Remove-Item -Recurse -Force",
+    "Move-Item \"$dir\\foobar2000-core\\*\" \"$dir\\\" -Force",
+    "Remove-Item \"$dir\\foobar2000-core\\\" -Force"
+  ],
+  "installer": {
+    "script": [
+      "New-Item \"$dir\\portable_mode_enabled\" -Force | Out-Null",
+      "if (Test-Path \"$persist_dir\\theme.fth\") {",
+      "    Copy-Item \"$persist_dir\\theme.fth\" \"$dir\" -Force",
+      "}"
+    ]
+  },
+  "post_install": "if (is_directory \"$dir\\theme.fth\") { Remove-Item \"$dir\\theme.fth\" -Force }",
+  "uninstaller": {
+    "script": [
+      "if (Test-Path \"$dir\\theme.fth\") {",
+      "    Copy-Item \"$dir\\theme.fth\" \"$persist_dir\" -Force",
+      "}"
+    ]
+  },
+  "checkver": "github",
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/dream7180/foobox-cn/archive/$version.zip"
+      },
+      "32bit": {
+        "url": "https://github.com/dream7180/foobox-cn/archive/$version.zip"
+      }
+    }
+  }
+}
