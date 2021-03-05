@@ -21,7 +21,7 @@
       "Foobar2000"
     ]
   ],
-  "extract_dir": "NSIS Source",
+  "extract_dir": "foobox-cn-$version\\NSIS Source",
   "persist": [
     "configuration",
     "index-data",
