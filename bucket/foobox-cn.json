@@ -28,6 +28,7 @@
     "library",
     "playlists-v1.4",
     "user-components",
+    "components\\scripts",
     "Lyrics",
     "MusicArt"
   ],
