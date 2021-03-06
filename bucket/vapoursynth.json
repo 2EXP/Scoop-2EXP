@@ -1,0 +1,40 @@
+{
+  "version": "R52",
+  "description": "A video processing framework with simplicity in mind",
+  "homepage": "https://github.com/vapoursynth/vapoursynth",
+  "license": {
+    "identifier": "LGPL-2.1-only",
+    "url": "https://github.com/vapoursynth/vapoursynth/blob/master/COPYING.LESSER"
+  },
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/vapoursynth/vapoursynth/releases/download/R52/VapourSynth64-Portable-R52.7z",
+      "hash": "9D244648C4603F502E8AD7258148E293A86EC934FC20C8762ACA4E68CB33C612",
+      "pre_install": "Remove-Item -LiteralPath \"$dir\\vapoursynth64\\plugins\" -Force -Recurse -ErrorAction SilentlyContinue"
+    },
+    "32bit": {
+      "url": "https://github.com/vapoursynth/vapoursynth/releases/download/R52/VapourSynth32-Portable-R52.7z",
+      "hash": "550EC2C4263FB345634DF89D9E98FBC864FD3402F0237E390DF6DB05C5994EF0",
+      "pre_install": "Remove-Item -LiteralPath \"$dir\\vapoursynth32\\plugins\" -Force -Recurse -ErrorAction SilentlyContinue"
+    }
+  },
+  "bin": [
+    "AVFS.exe",
+    "VSPipe.exe"
+  ],
+  "persist": "vapoursynth64\\plugins",
+  "suggest": {
+    "Python3": "python"
+  },
+  "checkver": "github",
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/vapoursynth/vapoursynth/releases/download/R52/VapourSynth64-Portable-$version.7z"
+      },
+      "32bit": {
+        "url": "https://github.com/vapoursynth/vapoursynth/releases/download/R52/VapourSynth32-Portable-$version.7z"
+      }
+    }
+  }
+}
