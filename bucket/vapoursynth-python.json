@@ -10,6 +10,7 @@
     "Copy-Item \"$dir\\*.dll\" -Destination \"$(appdir vapoursynth $global)\\current\"",
     "Copy-Item \"$dir\\*.exe\" -Destination \"$(appdir vapoursynth $global)\\current\"",
     "Copy-Item \"$dir\\*.pyd\" -Destination \"$(appdir vapoursynth $global)\\current\"",
-    "Copy-Item \"$dir\\*.cat\" -Destination \"$(appdir vapoursynth $global)\\current\""
+    "Copy-Item \"$dir\\*.cat\" -Destination \"$(appdir vapoursynth $global)\\current\"",
+    "Copy-Item \"$dir\\*.zip\" -Destination \"$(appdir vapoursynth $global)\\current\""
   ]
 }
