@@ -1,6 +1,6 @@
 {
   "version": "3.8.8",
-  "description": "python3.8 for vapoursynth",
+  "description": "python3.8 embed",
   "homepage": "https://www.python.org/",
   "license": "Python-2.0",
   "depends": "vapoursynth",

@@ -2,6 +2,7 @@
   "version": "R52",
   "description": "A video processing framework with simplicity in mind",
   "homepage": "https://github.com/vapoursynth/vapoursynth",
+  "depends": "python38-embed",
   "license": {
     "identifier": "LGPL-2.1-only",
     "url": "https://github.com/vapoursynth/vapoursynth/blob/master/COPYING.LESSER"
@@ -18,6 +19,9 @@
       "pre_install": "Remove-Item -LiteralPath \"$dir\\vapoursynth32\\plugins\" -Force -Recurse -ErrorAction SilentlyContinue"
     }
   },
+  "post_install": [
+    "Get-ChildItem \"$(appdir python38-embed $global)\\current\" | ForEach-Object { New-Item -ItemType HardLink -Path $_.Name -Value $_.FullName -ErrorAction Ignore }"
+  ],
   "bin": [
     "AVFS.exe",
     "VSPipe.exe"
