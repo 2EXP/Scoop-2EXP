@@ -9,12 +9,12 @@
       "hash": "FA2AC102B265D8E73E65D9CF6FC51627E52FD57275B87B4FF6867F8266697886",
       "installer": {
         "script": [
-          "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
+          "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
         ]
       },
       "uninstaller": {
         "script": [
-          "Remove-Item \"(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\libmvtools.dll\""
+          "Remove-Item \"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\libmvtools.dll\""
         ]
       }
     },
@@ -23,12 +23,12 @@
       "hash": "CB97C196E7F9D82A642F7B9BFE3F7F6B744863B8DF807644699073E59B5AB2C4",
       "installer": {
         "script": [
-          "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
+          "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
         ]
       },
       "uninstaller": {
         "script": [
-          "Remove-Item \"(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\libmvtools.dll\""
+          "Remove-Item \"$(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\libmvtools.dll\""
         ]
       }
     }
@@ -40,12 +40,12 @@
         "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v23/vapoursynth-mvtools-v$version-win64.7z",
         "installer": {
           "script": [
-            "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
+            "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
           ]
         },
         "uninstaller": {
           "script": [
-            "Remove-Item \"(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\libmvtools.dll\""
+            "Remove-Item \"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\libmvtools.dll\""
           ]
         }
       },
@@ -53,12 +53,12 @@
         "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v23/vapoursynth-mvtools-v$version-win32.7z",
         "installer": {
           "script": [
-            "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
+            "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
           ]
         },
         "uninstaller": {
           "script": [
-            "Remove-Item \"(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\libmvtools.dll\""
+            "Remove-Item \"$(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\libmvtools.dll\""
           ]
         }
       }

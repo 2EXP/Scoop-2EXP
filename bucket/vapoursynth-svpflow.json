@@ -9,12 +9,12 @@
   "extract_dir": "svpflow-4.3.0.168\\lib-windows\\vapoursynth",
   "installer": {
     "script": [
-      "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
+      "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
     ]
   },
   "uninstaller": {
     "script": [
-      "Remove-Item \"(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\svpflow*.dll\""
+      "Remove-Item \"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\svpflow*.dll\""
     ]
   },
   "checkver": {
