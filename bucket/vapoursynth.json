@@ -27,9 +27,6 @@
     "VSPipe.exe"
   ],
   "persist": "vapoursynth64\\plugins",
-  "suggest": {
-    "Python3.8": "vapoursynth-python"
-  },
   "checkver": "github",
   "autoupdate": {
     "architecture": {
