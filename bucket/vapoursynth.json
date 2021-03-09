@@ -20,7 +20,7 @@
     }
   },
   "post_install": [
-    "Get-ChildItem \"$(appdir python38-embed $global)\\current\" | ForEach-Object { New-Item -ItemType HardLink -Path $_.Name -Value $_.FullName -ErrorAction Ignore }"
+    "Get-ChildItem \"$(appdir python38-embed $global)\\current\" | ForEach-Object { New-Item -ItemType HardLink -Path \"$dir\\$_.Name\" -Value $_.FullName -ErrorAction Ignore } | Out-Null"
   ],
   "bin": [
     "AVFS.exe",
