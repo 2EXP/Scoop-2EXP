@@ -13,8 +13,8 @@
   "installer": {
     "script": [
       "{",
-      "  $mpv = (Split-Path $persist_dir) + '\\mpv-git'",
-      "  Rename-Item $mpv mpv-lazy",
+      "  $mpv = (Split-Path $persist_dir) + '\\mpv-git\\portable_config'",
+      "  Rename-Item $mpv config_backups",
       "  New-Item -ItemType Junction -Path $mpv -Value $dir",
       "}"
     ]
@@ -22,9 +22,9 @@
   "uninstaller": {
     "script": [
       "{",
-      "  $persist = Split-Path $persist_dir",
-      "  Remove-Item ($persist + '\\mpv-git')",
-      "  Rename-Item ($persist + '\\mpv-lazy') mpv-git",
+      "  $mpv = (Split-Path $persist_dir) + '\\mpv-git'",
+      "  Remove-Item ($mpv + '\\portable_config')",
+      "  Rename-Item ($mpv + '\\config_backups') portable_config",
       "}"
     ]
   }
