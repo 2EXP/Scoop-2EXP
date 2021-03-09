@@ -1,0 +1,28 @@
+{
+  "version": "4.3.0.168",
+  "description": "SVP’s GPU-accelerated Vapoursynth plugins",
+  "homepage": "https://www.svp-team.com/",
+  "depends": "vapoursynth",
+  "notes": "Only work for vapoursynth64.",
+  "url": "https://www.svp-team.com/files/gpl/svpflow-4.3.0.168.zip",
+  "hash": "FD42A06E3528F278CC846E5027D0E9506BDCB47259AFBF99D861E72C2328FD8E",
+  "extract_dir": "svpflow-4.3.0.168\\lib-windows\\vapoursynth",
+  "installer": {
+    "script": [
+      "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
+    ]
+  },
+  "uninstaller": {
+    "script": [
+      "Remove-Item \"(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\svpflow*.dll\""
+    ]
+  },
+  "checkver": {
+    "url": "https://www.svp-team.com/get/",
+    "regex": "*svpflow-([\\d.]+-[\\w.]+)"
+  },
+  "autoupdate": {
+    "url": "https://www.svp-team.com/files/gpl/svpflow-$version.zip",
+    "extract_dir": "svpflow-$version\\lib-windows\\vapoursynth"
+  }
+}
