@@ -3,7 +3,6 @@
   "description": "python3.8 embed",
   "homepage": "https://www.python.org/",
   "license": "Python-2.0",
-  "depends": "vapoursynth",
   "url": "https://www.python.org/ftp/python/3.8.8/python-3.8.8-embed-amd64.zip",
   "hash": "93EC53127607CD18C4621FACAB9F3428E1B37DF4709A8311484F4FC29A6E55D5",
   "post_install": [
