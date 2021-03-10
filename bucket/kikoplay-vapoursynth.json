@@ -1,0 +1,28 @@
+{
+  "version": "0.7.2",
+  "description": "Kiko Play with vapoursynth capability",
+  "homepage": "https://github.com/Protostars/KikoPlay",
+  "license": "GPL-3.0-only",
+  "notes": "Only work with vapoursynth64."
+  "depends": "vapoursynth",
+  "url": "https://github.com/Protostars/KikoPlay/releases/download/0.7.2/0.7.2.zip",
+  "hash": "9B80E60FB910A26AFD4A2EE9D25D2D487184A7C1CACD61D0B86586AEE30757F9",
+  "post_install": [
+    "Get-ChildItem \"$(appdir vapoursynth $global)\\current\" -Exclude doc,sdk,vapoursynth64 | ForEach-Object { Copy-Item $_.FullName (\"$dir\\\" + $_.Name) -ErrorAction Ignore } | Out-Null",
+    "New-Item -ItemType Junction -Path \"$dir\\vapoursynth64\" -Value \"$(appdir vapoursynth $global)\\current\\vapoursynth64\" -ErrorAction Ignore | Out-Null"
+  ],
+  "shortcuts": [
+    [
+      "KikoPlay.exe",
+      "KikoPlay"
+    ]
+  ],
+  "persist": [
+    "data",
+    "script"
+  ],
+  "checkver": "github",
+  "autoupdate": {
+    "url": "https://github.com/Protostars/KikoPlay/releases/download/$version/$version.zip"
+  }
+}

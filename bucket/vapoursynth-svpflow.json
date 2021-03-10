@@ -3,7 +3,7 @@
   "description": "SVP’s GPU-accelerated Vapoursynth plugins",
   "homepage": "https://www.svp-team.com/",
   "depends": "vapoursynth",
-  "notes": "Only work for vapoursynth64.",
+  "notes": "Only work with vapoursynth64.",
   "url": "https://www.svp-team.com/files/gpl/svpflow-4.3.0.168.zip",
   "hash": "FD42A06E3528F278CC846E5027D0E9506BDCB47259AFBF99D861E72C2328FD8E",
   "extract_dir": "svpflow-4.3.0.168\\lib-windows\\vapoursynth",
