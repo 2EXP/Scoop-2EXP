@@ -8,6 +8,7 @@
   "url": "https://github.com/Protostars/KikoPlay/releases/download/0.7.2/0.7.2.zip",
   "hash": "9B80E60FB910A26AFD4A2EE9D25D2D487184A7C1CACD61D0B86586AEE30757F9",
   "post_install": [
+    "Remove-Item \"$dir\\aria2c.exe\" -ErrorAction Ignore",
     "Get-ChildItem \"$(appdir vapoursynth $global)\\current\" -Exclude doc,sdk,vapoursynth64 | ForEach-Object { Copy-Item $_.FullName (\"$dir\\\" + $_.Name) -ErrorAction Ignore } | Out-Null",
     "New-Item -ItemType Junction -Path \"$dir\\vapoursynth64\" -Value \"$(appdir vapoursynth $global)\\current\\vapoursynth64\" -ErrorAction Ignore | Out-Null"
   ],
