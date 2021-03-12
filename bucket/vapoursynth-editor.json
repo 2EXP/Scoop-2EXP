@@ -1,0 +1,42 @@
+{
+  "version": "5.3",
+  "description": "VapourSynth Editor",
+  "homepage": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/downloads/",
+  "license": {
+    "identifier": "GPL-3.0-or-later",
+    "url": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/src/master/LICENSE"
+  },
+  "architecture": {
+    "64bit": {
+      "url": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/downloads/VapourSynthEditor2-R5.3-64bit.7z",
+      "hash": "471250D3B18F23616E50853331FB97E248F9FE7E9C757AA72EE9D7389CE9D3CD"
+    }
+  },
+  "extract_dir": "VapourSynthEditor2-R5.3-64bit",
+  "shortcuts": [
+    [
+      "vsedit.exe",
+      "VapourSynth Editor"
+    ],
+    [
+      "vsedit-job-server-watcher.exe",
+      "VSEdit Server Watcher"
+    ]
+  ],
+  "post_install": [
+    "Get-ChildItem \"$(appdir vapoursynth $global)\\current\" -Exclude doc,sdk,vapoursynth64 | ForEach-Object { Copy-Item $_.FullName (\"$dir\\\" + $_.Name) -ErrorAction Ignore } | Out-Null",
+    "New-Item -ItemType Junction -Path \"$dir\\vapoursynth64\" -Value \"$(appdir vapoursynth $global)\\current\\vapoursynth64\" -ErrorAction Ignore | Out-Null"
+  ],
+  "checkver": {
+    "url": "https://api.bitbucket.org/2.0/repositories/gundamftw/vapoursynth-editor-2/downloads",
+    "regex": "VapourSynthEditor2-R([\\d.]+-[\\w.]+)"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/downloads/VapourSynthEditor2-R$version-64bit.7z"
+      }
+    },
+    "extract_dir": "VapourSynthEditor2-R$version-64bit"
+  }
+}
