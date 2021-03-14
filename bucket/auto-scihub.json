@@ -6,15 +6,11 @@
   "url": "https://github.com/RoiArthurB/Side-Auto_Sci-Hub/archive/v2.3.zip",
   "hash": "628274D1AF84D68948652B4C21D6CE3C772D39EB25368C52DF71462971F0EAF2",
   "post_install": [
-    "Rename-Item \"$dir\\Side-Auto_Sci-Hub-2.3\" \"auto-scihub\" -ErrorAction Ignore | Out-Null",
+    "Rename-Item \"$dir\\Side-Auto_Sci-Hub-*\" \"auto-scihub\" -ErrorAction Ignore | Out-Null",
     "Remove-Item \"$dir\\auto-scihub\\_config.yml\" -ErrorAction Ignore | Out-Null"
   ],
   "checkver": "github",
   "autoupdate": {
-    "url": "https://github.com/RoiArthurB/Side-Auto_Sci-Hub/archive/v$version.zip",
-    "post_install": [
-      "Rename-Item \"$dir\\Side-Auto_Sci-Hub-$version\" \"auto-scihub\" -ErrorAction Ignore | Out-Null",
-      "Remove-Item \"$dir\\auto-scihub\\_config.yml\" -ErrorAction Ignore | Out-Null"
-    ]
+    "url": "https://github.com/RoiArthurB/Side-Auto_Sci-Hub/archive/v$version.zip"
   }
 }
