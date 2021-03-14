@@ -1,0 +1,48 @@
+{
+  "version": "2.0-a129-78d2aa15",
+  "description": "The ultimate automation scripting language for Windows.",
+  "homepage": "https://www.autohotkey.com/",
+  "license": "GPL-2.0-or-later",
+  "architecture": {
+    "64bit": {
+      "url": "https://www.autohotkey.com/download/2.0/AutoHotkey_2.0-a129-78d2aa15.zip",
+      "hash": "36935AA5C8B18354D07EBE046E7428205D44CA97BA17B1FF554B90D6C30C54A5",
+      "bin": [
+        [
+          "autohotkeyu64.exe",
+          "ahk"
+        ]
+      ]
+    },
+    "32bit": {
+      "url": "https://www.autohotkey.com/download/2.0/AutoHotkey_2.0-a129-78d2aa15.zip",
+      "hash": "36935AA5C8B18354D07EBE046E7428205D44CA97BA17B1FF554B90D6C30C54A5",
+      "bin": [
+        [
+          "autohotkeyu32.exe",
+          "ahk"
+        ]
+      ]
+    }
+  },
+  "checkver": {
+    "url": "https://www.autohotkey.com/download/2.0/?C=M;O=D",
+    "regex": "AutoHotkey_([\\w-.+]+).zip"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://www.autohotkey.com/download/2.0/AutoHotkey_$version.zip",
+        "hash": {
+          "url": "https://www.autohotkey.com/download/2.0/AutoHotkey_$version.zip.sha256"
+        }
+      },
+      "32bit": {
+        "url": "https://www.autohotkey.com/download/2.0/AutoHotkey_$version.zip",
+        "hash": {
+          "url": "https://www.autohotkey.com/download/2.0/AutoHotkey_$version.zip.sha256"
+        }
+      }
+    }
+  }
+}
