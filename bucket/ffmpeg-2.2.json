@@ -1,0 +1,9 @@
+{
+  "version": "2.2.11",
+  "description": "FFmpeg 2.2",
+  "homepage": "https://www.ffmpeg.org/",
+  "license": "LGPL-2.1-only",
+  "url": "https://github.com/TheRandomLabs/Scoop-Bucket-Binaries/raw/master/ffmpeg-2.2.11-win32-shared.7z",
+  "hash": "A60A9F9466B967D5BEF8F9B242B928F98516F756C7C5EA06660B37C6CDBC6BFC",
+  "extract_dir": "ffmpeg-2.2.11-win32-shared\\bin"
+}
