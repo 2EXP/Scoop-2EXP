@@ -1,0 +1,31 @@
+{
+  "version": "2.4.2",
+  "description": "An easy-to-use, multi-track audio editor and recorder.",
+  "homepage": "https://www.audacityteam.org",
+  "license": "GPL-2.0-or-later",
+  "depends": "ffmpeg-2.2",
+  "url": "https://fossies.org/windows/misc/audacity-2.4.2.zip",
+  "hash": "0C14F7C6850C93B9DACC14FE66876B8DC3397D92DBD849898783A21BAD1FFF55",
+  "bin": "audacity.exe",
+  "shortcuts": [
+    [
+      "audacity.exe",
+      "Audacity"
+    ]
+  ],
+  "persist": "Portable Settings",
+  "post_install": [
+    "Copy-Item \"$(appdir ffmpeg-2.2 $global)\\current\\*.dll\" -Destination \"$dir\\\"",
+    "Copy-Item \"$(appdir ffmpeg-2.2 $global)\\current\\ffmpeg.exe\" -Destination \"$dir\\\""
+  ],
+  "checkver": {
+    "url": "https://fossies.org/windows/misc/",
+    "regex": "[Aa]udacity-([\\d.]+)\\.zip\""
+  },
+  "autoupdate": {
+    "url": "https://fossies.org/windows/misc/audacity-$version.zip",
+    "hash": {
+      "url": "$url_fossies.sha256"
+    }
+  }
+}
