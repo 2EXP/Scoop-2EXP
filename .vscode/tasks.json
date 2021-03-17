@@ -3,7 +3,6 @@
     "tasks": [
         {
             "label": "Check version (Whole repository)",
-            "detail": "Execute checkver for each manifests ini each folder inside repository.",
             "type": "shell",
             "options": {
                 "env": {
@@ -25,15 +24,32 @@
             "problemMatcher": [],
         },
         {
-            // Default (While opened file, Press CTRL+F9 / CTRL+SHIFT+B)
-            "label": "Check and update (Actual)",
-            "detail": "Custom version check with auto commit",
+            "label": "Check hahes",
             "type": "shell",
             "options": {
                 "env": {
                     "SCOOP_DEBUG": "true",
                 },
             },
+            "args": [
+                "-Update",
+                "-UseCache",
+            ],
+            "command": ".\\bin\\checkhashes.ps1",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+            },
+            "group": "test",
+            "problemMatcher": [],
+        },
+        {
+            // Default (While opened file, Press CTRL+F9 / CTRL+SHIFT+B)
+            "label": "Check and update (Actual)",
+            "type": "shell",
             "command": ".\\bin\\checkAndPush.ps1",
             "args": [
                 "'${file}'",
@@ -57,38 +73,7 @@
             },
         },
         {
-            "label": "Test",
-            "detail": "Execute Pester tests in repository root directory.",
-            "type": "shell",
-            "command": ".\\bin\\test.ps1",
-            "presentation": {
-                "echo": true,
-                "reveal": "silent",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false,
-            },
-            "group": "test",
-            "problemMatcher": [],
-        },
-        {
-            "label": "Missing Checkver",
-            "detail": "Check if manifests have checkver and autoupdate properties.",
-            "type": "shell",
-            "command": ".\\bin\\missing-checkver.ps1; .\\bin\\missing-checkver.ps1 -dir \"TODO\"",
-            "presentation": {
-                "echo": true,
-                "reveal": "silent",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false,
-            },
-            "group": "test",
-            "problemMatcher": [],
-        },
-        {
             "label": "Push Auto-PR",
-            "detail": "Execute checkver and push updated manifests.",
             "type": "shell",
             "options": {
                 "env": {
@@ -111,7 +96,6 @@
         },
         {
             "label": "Checkver Actual",
-            "detail": "Check version of currently opened manifest.",
             "type": "shell",
             "options": {
                 "env": {
@@ -126,13 +110,6 @@
                 "'${relativeFileDirname}'",
                 "-Force",
             ],
-            "presentation": {
-                "echo": true,
-                "reveal": "silent",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false,
-            },
             "problemMatcher": [],
             "runOptions": {
                 "instanceLimit": 99,
@@ -140,7 +117,6 @@
         },
         {
             "label": "Checkhashes Actual",
-            "detail": "Check hashes of currently opened manifest.",
             "type": "shell",
             "options": {
                 "env": {
@@ -155,13 +131,6 @@
                 "'${relativeFileDirname}'",
                 "-Force",
             ],
-            "presentation": {
-                "echo": true,
-                "reveal": "silent",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false,
-            },
             "problemMatcher": [],
             "runOptions": {
                 "instanceLimit": 99,
@@ -169,7 +138,6 @@
         },
         {
             "label": "Purge Uninstall Actual",
-            "detail": "Uninstall currently opened manifest and remove persisted data.",
             "type": "shell",
             "options": {
                 "env": {
@@ -182,21 +150,14 @@
                 "'${fileBasenameNoExtension}'",
                 "-p",
             ],
-            "presentation": {
-                "echo": true,
-                "reveal": "silent",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false,
-            },
             "problemMatcher": [],
             "runOptions": {
                 "instanceLimit": 99,
+                "reevaluateOnRerun": false,
             },
         },
         {
             "label": "Install Actual",
-            "detail": "Install currently opened manifest.",
             "type": "shell",
             "options": {
                 "env": {
@@ -207,22 +168,17 @@
             "args": [
                 "install",
                 "'${file}'",
+                "--arch",
+                "${input:pickArchitectureType}",
             ],
-            "presentation": {
-                "echo": true,
-                "reveal": "silent",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false,
-            },
             "problemMatcher": [],
             "runOptions": {
+                "reevaluateOnRerun": false,
                 "instanceLimit": 99,
             },
         },
         {
             "label": "ReInstall Actual",
-            "detail": "Uninstall (--purge) and install currently opened manifest.",
             "type": "shell",
             "options": {
                 "env": {
@@ -234,13 +190,6 @@
                 "Install Actual",
             ],
             "dependsOrder": "sequence",
-            "presentation": {
-                "echo": true,
-                "reveal": "silent",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false,
-            },
             "problemMatcher": [],
             "runOptions": {
                 "instanceLimit": 99,
@@ -248,7 +197,6 @@
         },
         {
             "label": "Force Update Actual",
-            "detail": "Update currently opened manifest.",
             "type": "shell",
             "options": {
                 "env": {
@@ -263,8 +211,47 @@
             ],
             "problemMatcher": [],
             "runOptions": {
-                "instanceLimit": 99,
                 "reevaluateOnRerun": false,
+                "instanceLimit": 99,
+            },
+        },
+        {
+            "label": "Sordum Updates",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "SCOOP_DEBUG": "true",
+                },
+            },
+            "command": ".\\bin\\sordum.ps1",
+            "problemMatcher": [],
+        },
+        {
+            "label": "Test Homepage",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "SCOOP_DEBUG": "true",
+                },
+            },
+            "command": "scoop test-home '${selectedText}'",
+            "problemMatcher": [],
+        },
+        {
+            "label": "Download",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "SCOOP_DEBUG": "true",
+                },
+            },
+            "command": "scoop download '${file}' -bs",
+            "problemMatcher": [],
+            "runOptions": {
+                "instanceLimit": 99,
             },
         },
     ],
@@ -276,18 +263,45 @@
             "options": [
                 "-Update",
                 "-ForceUpdate",
+                "-NoSkip",
             ],
             "default": "-Update",
         },
         {
             "id": "pickCheckType",
-            "description": "Select what binary should be called. (checkver or checkhashes)",
+            "description": "Select what binary should be called.",
             "type": "pickString",
             "options": [
                 "-Hashes:$false",
                 "-Hashes",
             ],
             "default": "-Hashes:$false",
+        },
+        {
+            "id": "pickSpecificManifest",
+            "description": "Select what manifest should be checked.",
+            "type": "promptString",
+            "default": "*",
+        },
+        {
+            "id": "pickBucketDirectory",
+            "description": "Select folder",
+            "type": "pickString",
+            "options": [
+                "bucket",
+                "TODO",
+            ],
+            "default": "bucket",
+        },
+        {
+            "id": "pickArchitectureType",
+            "description": "Select architecture to be installed",
+            "type": "pickString",
+            "options": [
+                "64bit",
+                "32bit",
+            ],
+            "default": "64bit",
         },
     ],
 }
