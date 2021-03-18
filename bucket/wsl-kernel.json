@@ -7,7 +7,7 @@
   "hash": "2EBFEC253C68BCB1C1B8B2E94DA9905BD150EB8042BE53B6D7B1319D9C70623A",
   "checkver": {
     "url": "https://api.github.com/repos/nathanchance/WSL2-Linux-Kernel/releases",
-    "regex": "*releases/tag/wsl2-cbl-kernel-next-([\\d.]+-[\\w.]+)"
+    "regex": "releases/tag/wsl2-cbl-kernel-next-([\\d.]+-[\\w.]+)"
   },
   "autoupdate": {
     "url": "https://github.com/nathanchance/WSL2-Linux-Kernel/releases/download/wsl2-cbl-kernel-next-$version/bzImage"
