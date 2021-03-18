@@ -13,7 +13,7 @@
   ],
   "checkver": {
     "github": "https://api.github.com/repos/Dreamacro/clash/releases",
-    "regex": "*releases/tag/v([\\d.]+-[\\w.]+)"
+    "regex": "releases/tag/v([\\d.]+-[\\w.]+)"
   },
   "autoupdate": {
     "url": "https://github.com/CopyTranslator/CopyTranslator/releases/download/v$version/copytranslator-$version-win.zip"

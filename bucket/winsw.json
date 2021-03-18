@@ -21,7 +21,7 @@
   ],
   "checkver": {
     "url": "https://api.github.com/repos/winsw/winsw/releases",
-    "regex": "*releases/tag/v([\\d.]+-[\\w.]+)"
+    "regex": "releases/tag/v([\\d.]+-[\\w.]+)"
   },
   "autoupdate": {
     "architecture": {
