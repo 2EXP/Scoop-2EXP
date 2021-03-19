@@ -19,7 +19,7 @@
     "bin": [
         [
             "WinSW-net461.exe",
-            "winsw.exe"
+            "winsw"
         ]
     ],
     "checkver": {
