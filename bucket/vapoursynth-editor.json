@@ -29,7 +29,7 @@
   ],
   "checkver": {
     "url": "https://api.bitbucket.org/2.0/repositories/gundamftw/vapoursynth-editor-2/downloads",
-    "regex": "VapourSynthEditor2-R([\\d.]+"
+    "regex": "VapourSynthEditor2-R([\\d.]+)"
   },
   "autoupdate": {
     "architecture": {
