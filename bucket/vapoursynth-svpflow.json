@@ -19,7 +19,7 @@
   },
   "checkver": {
     "url": "https://www.svp-team.com/get/",
-    "regex": "*svpflow-([\\d.]+-[\\w.]+)"
+    "regex": "*svpflow-([\\d.]+"
   },
   "autoupdate": {
     "url": "https://www.svp-team.com/files/gpl/svpflow-$version.zip",

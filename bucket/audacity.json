@@ -20,7 +20,7 @@
   ],
   "checkver": {
     "url": "https://fossies.org/windows/misc/",
-    "regex": "[Aa]udacity-([\\d.]+)\\.zip\""
+    "regex": "[Aa]udacity-win-([\\d.]+)\\.zip\""
   },
   "autoupdate": {
     "url": "https://fossies.org/windows/misc/audacity-$version.zip",
