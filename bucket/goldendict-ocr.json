@@ -22,7 +22,7 @@
   ],
   "checkver": {
     "url": "https://api.github.com/repos/nonwill/nwDeployed/releases",
-    "regex": "GoldenDict++OCR_([\\w]+)"
+    "regex": "GoldenDict\\+\\+OCR_([\\w]+)"
   },
   "autoupdate": {
     "architecture": {
