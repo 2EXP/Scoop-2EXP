@@ -17,7 +17,10 @@
     }
   },
   "bin": [
-    "winsw.exe"
+    [
+      "WinSW-net461.exe",
+      "winsw.exe"
+    ]
   ],
   "checkver": {
     "url": "https://api.github.com/repos/winsw/winsw/releases",
@@ -26,10 +29,10 @@
   "autoupdate": {
     "architecture": {
       "64bit": {
-        "url": "https://github.com/winsw/winsw/releases/download/v$version/WinSW-x64.zip"
+        "url": "https://github.com/winsw/winsw/releases/download/v$version/WinSW-net461.exe"
       },
       "32bit": {
-        "url": "https://github.com/winsw/winsw/releases/download/v$version/WinSW-x86.zip"
+        "url": "https://github.com/winsw/winsw/releases/download/v$version/WinSW-net461.exe"
       }
     }
   }
