@@ -28,8 +28,8 @@
   ],
   "persist": "vapoursynth64\\plugins",
   "checkver": {
-    "url": "https://github.com/vapoursynth/vapoursynth",
-    "regex": "-Portable-R([\\d]+)\\.zip"
+    "url": "https://api.github.com/repos/vapoursynth/vapoursynth/releases",
+    "regex": "releases/tag/R([\\d]+)"
   },
   "autoupdate": {
     "architecture": {
