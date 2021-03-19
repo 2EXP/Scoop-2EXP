@@ -20,7 +20,10 @@
       "GoldenDict"
     ]
   ],
-  "checkver": "github",
+  "checkver": {
+    "url": "https://api.github.com/repos/nonwill/nwDeployed/releases",
+    "regex": "\"tag_name\": \"([\\w+]+)\""
+  },
   "autoupdate": {
     "architecture": {
       "64bit": {

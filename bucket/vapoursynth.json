@@ -29,7 +29,7 @@
   "persist": "vapoursynth64\\plugins",
   "checkver": {
     "url": "https://github.com/vapoursynth/vapoursynth",
-    "regex": "-Portable-R([\\d]+)"
+    "regex": "-Portable-R([\\d]+)\\.zip"
   },
   "autoupdate": {
     "architecture": {

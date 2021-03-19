@@ -20,7 +20,7 @@
   },
   "checkver": {
     "url": "https://www.svp-team.com/get/",
-    "regex": "SVPflow ([\\d.])+ – "
+    "regex": "SVPflow ([\\d.]+) "
   },
   "autoupdate": {
     "url": "https://www.svp-team.com/files/gpl/svpflow-$version.zip",
