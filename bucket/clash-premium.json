@@ -11,12 +11,12 @@
   },
   "checkver": {
     "url": "https://api.github.com/repos/Dreamacro/clash/releases",
-    "regex": "releases/download/premium/clash-windows-amd64-([\\d.]+)"
+    "regex": "releases/download/premium/clash-windows-amd64-([\\d.]+)\\.zip"
   },
   "autoupdate": {
     "architecture": {
       "64bit": {
-        "url": "https://github.com/Dreamacro/clash/releases/download/premium/clash-windows-amd64-$version.7z"
+        "url": "https://github.com/Dreamacro/clash/releases/download/premium/clash-windows-amd64-$version.zip"
       }
     }
   }
