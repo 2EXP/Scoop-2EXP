@@ -1,5 +1,5 @@
 {
-  "version": "GoldenDict++OCR_2A26_20210223",
+  "version": "2A26_20210223",
   "description": "clash premium core for clashweb",
   "homepage": "https://github.com/nonwill/nwDeployed",
   "license": "GPL-3.0-only",
@@ -22,12 +22,12 @@
   ],
   "checkver": {
     "url": "https://api.github.com/repos/nonwill/nwDeployed/releases",
-    "regex": "\"tag_name\":\\s\"([\\w_+]+)\""
+    "regex": "GoldenDict++OCR_([\\w]+)"
   },
   "autoupdate": {
     "architecture": {
       "64bit": {
-        "url": "https://github.com/nonwill/nwDeployed/archive/$version.zip"
+        "url": "https://github.com/nonwill/nwDeployed/archive/GoldenDict++OCR_$version.zip"
       }
     },
     "extract_dir": "nwDeployed-$version"
