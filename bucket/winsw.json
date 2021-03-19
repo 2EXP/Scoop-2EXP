@@ -1,39 +1,39 @@
 {
-  "version": "3.0.0-alpha.7",
-  "description": "WinSW wraps and manages any application as a Windows service",
-  "homepage": "https://github.com/winsw/winsw",
-  "license": {
-    "identifier": "MIT",
-    "url": "https://github.com/winsw/winsw/blob/v3/LICENSE.txt"
-  },
-  "architecture": {
-    "64bit": {
-      "url": "https://github.com/winsw/winsw/releases/download/v3.0.0-alpha.7/WinSW-x64.zip",
-      "hash": "4C7DD9A49E0A60F73ED18ABE827C5AFFF4FB5230E3FBF67F3BB0AED97CD75713"
+    "version": "3.0.0-alpha.8",
+    "description": "WinSW wraps and manages any application as a Windows service",
+    "homepage": "https://github.com/winsw/winsw",
+    "license": {
+        "identifier": "MIT",
+        "url": "https://github.com/winsw/winsw/blob/v3/LICENSE.txt"
     },
-    "32bit": {
-      "url": "https://github.com/winsw/winsw/releases/download/v3.0.0-alpha.7/WinSW-x86.zip",
-      "hash": "D8D769535C36616808BEC286472E0F5EBCDB8D851375739FD1D36EDC80750D52"
-    }
-  },
-  "bin": [
-    [
-      "WinSW-net461.exe",
-      "winsw.exe"
-    ]
-  ],
-  "checkver": {
-    "url": "https://api.github.com/repos/winsw/winsw/releases",
-    "regex": "releases/tag/v([\\d.]+-[\\w.]+)"
-  },
-  "autoupdate": {
     "architecture": {
-      "64bit": {
-        "url": "https://github.com/winsw/winsw/releases/download/v$version/WinSW-net461.exe"
-      },
-      "32bit": {
-        "url": "https://github.com/winsw/winsw/releases/download/v$version/WinSW-net461.exe"
-      }
+        "64bit": {
+            "url": "https://github.com/winsw/winsw/releases/download/v3.0.0-alpha.8/WinSW-net461.exe",
+            "hash": "acfb023b259072e668f212a296bdf535e06effb11cbc342540e87af61fe5188d"
+        },
+        "32bit": {
+            "url": "https://github.com/winsw/winsw/releases/download/v3.0.0-alpha.8/WinSW-net461.exe",
+            "hash": "acfb023b259072e668f212a296bdf535e06effb11cbc342540e87af61fe5188d"
+        }
+    },
+    "bin": [
+        [
+            "WinSW-net461.exe",
+            "winsw.exe"
+        ]
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/winsw/winsw/releases",
+        "regex": "releases/tag/v([\\d.]+-[\\w.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/winsw/winsw/releases/download/v$version/WinSW-net461.exe"
+            },
+            "32bit": {
+                "url": "https://github.com/winsw/winsw/releases/download/v$version/WinSW-net461.exe"
+            }
+        }
     }
-  }
 }
