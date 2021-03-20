@@ -1,0 +1,13 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Classes\Directory\shell\Open with &Windows Terminal]
+@="Open with &Windows Terminal"
+"Icon"="$wt"
+[HKEY_CURRENT_USER\Software\Classes\Directory\shell\Open with &Windows Terminal\command]
+@="\"$wt\" -d \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\Open with &Windows Terminal]
+@="Open with &Windows Terminal"
+"Icon"="$wt"
+[HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\Open with &Windows Terminal\command]
+@="\"$wt\" -d \"%V\""
