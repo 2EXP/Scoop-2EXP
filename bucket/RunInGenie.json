@@ -1,0 +1,18 @@
+{
+  "version": "0.2",
+  "description": "Quickly run a WSL/Linux command from a Windows (e.g., PowerShell or CMD) prompt",
+  "homepage": "https://github.com/arkane-systems/RunInGenie",
+  "license": {
+    "identifier": "MIT",
+    "url": "https://github.com/arkane-systems/RunInGenie/blob/master/LICENSE"
+  },
+  "url": "https://github.com/arkane-systems/RunInGenie/releases/download/v0.2/runingenie.zip",
+  "hash": "AE91E86ECE1D1AB43DA3B1EF34CD1665A141104F3FC9CE59D53188089DA557E3",
+  "bin": [
+    "$.exe"
+  ],
+  "checkver": "github",
+  "autoupdate": {
+    "url": "https://github.com/arkane-systems/RunInGenie/releases/download/v$version/runingenie.zip"
+  }
+}
