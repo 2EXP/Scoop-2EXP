@@ -1,0 +1,21 @@
+{
+    "version": "0.3.1",
+    "description": "posh-sshell is a PowerShell module that provides utilities for working with SSH connections within PowerShell",
+    "homepage": "https://github.com/dahlbyk/posh-sshell",
+    "license": {
+        "identifier": "MIT",
+        "url": "https://github.com/dahlbyk/posh-sshell/blob/master/LICENSE.txt"
+    },
+    "url": "https://psg-prod-eastus.azureedge.net/packages/posh-sshell.0.3.1.nupkg",
+    "hash": "05eca1e11ba1950378660fad8f0be7c26de88ab90f5a50c09782e8869d10e7d1",
+    "psmodule": {
+        "name": "posh-sshell"
+    },
+    "checkver": {
+        "url": "https://www.powershellgallery.com/packages/posh-sshell",
+        "regex": "\\|\\s+posh-sshell\\s+([\\d.]+)"
+    },
+    "autoupdate": {
+        "url": "https://psg-prod-eastus.azureedge.net/packages/posh-sshell.$version.nupkg"
+    }
+}
