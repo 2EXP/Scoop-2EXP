@@ -1,0 +1,21 @@
+{
+    "version": "3.0.0-beta1",
+    "description": "Windows Powershell module that leverages a custom version of the SSH.NET Library to provide basic SSH functionality in Powershell",
+    "homepage": "https://github.com/darkoperator/Posh-SSH",
+    "license": {
+        "identifier": "BSD-3-Clause",
+        "url": "https://github.com/darkoperator/Posh-SSH/blob/master/License.md"
+    },
+    "url": "https://psg-prod-eastus.azureedge.net/packages/posh-ssh.3.0.0-beta1.nupkg",
+    "hash": "f2a5b091b3cbdbfcacf4c27138ed4ee04eaa9052df656ee2d68c0e5dfa65ff72",
+    "psmodule": {
+        "name": "Posh-SSH"
+    },
+    "checkver": {
+        "url": "https://www.powershellgallery.com/packages/Posh-SSH",
+        "regex": "\\|\\s+Posh-SSH\\s+([\\d.]+-\\w+)"
+    },
+    "autoupdate": {
+        "url": "https://psg-prod-eastus.azureedge.net/packages/posh-ssh.$version.nupkg"
+    }
+}
