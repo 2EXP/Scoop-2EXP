@@ -1,35 +1,35 @@
 {
-  "version": "2A26_20210223",
-  "description": "clash premium core for clashweb",
-  "homepage": "https://github.com/nonwill/nwDeployed",
-  "license": "GPL-3.0-only",
-  "architecture": {
-    "64bit": {
-      "url": "https://github.com/nonwill/nwDeployed/archive/GoldenDict++OCR_2A26_20210223.zip",
-      "hash": "2182DD3CF17C6071B515D0DB2792667A4CF01A59468A52D9A786E697F2DD476E"
-    }
-  },
-  "extract_dir": "nwDeployed-GoldenDict-OCR_2A26_20210223\\bin5_x64_msvc",
-  "persist": [
-    "portable",
-    "content"
-  ],
-  "shortcuts": [
-    [
-      "goldendict.exe",
-      "GoldenDict"
-    ]
-  ],
-  "checkver": {
-    "url": "https://api.github.com/repos/nonwill/nwDeployed/releases",
-    "regex": "GoldenDict\\+\\+OCR_([\\w]+)"
-  },
-  "autoupdate": {
+    "version": "2A28_20210330",
+    "description": "clash premium core for clashweb",
+    "homepage": "https://github.com/nonwill/nwDeployed",
+    "license": "GPL-3.0-only",
     "architecture": {
-      "64bit": {
-        "url": "https://github.com/nonwill/nwDeployed/archive/GoldenDict++OCR_$version.zip"
-      }
+        "64bit": {
+            "url": "https://github.com/nonwill/nwDeployed/archive/GoldenDict++OCR_2A28_20210330.zip",
+            "hash": "85205c7004d6f56b96fff04ceb2c63f7af52ce55ab344e14ac820a68cd613980"
+        }
     },
-    "extract_dir": "nwDeployed-$version"
-  }
+    "extract_dir": "nwDeployed-2A28_20210330",
+    "persist": [
+        "portable",
+        "content"
+    ],
+    "shortcuts": [
+        [
+            "goldendict.exe",
+            "GoldenDict"
+        ]
+    ],
+    "checkver": {
+        "url": "https://api.github.com/repos/nonwill/nwDeployed/releases",
+        "regex": "GoldenDict\\+\\+OCR_([\\w]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/nonwill/nwDeployed/archive/GoldenDict++OCR_$version.zip"
+            }
+        },
+        "extract_dir": "nwDeployed-$version"
+    }
 }
