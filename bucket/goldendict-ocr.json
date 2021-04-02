@@ -9,7 +9,7 @@
             "hash": "f5c7cec9918b69a823ad55d6c223518f445d40e7fafee86ba504da19a5297322"
         }
     },
-    "extract_dir": "nwDeployed-2A29_20210403",
+    "extract_dir": "nwDeployed-GoldenDict-OCR_2A29_20210403\\bin5_x64_msvc",
     "persist": [
         "portable",
         "content"
@@ -25,11 +25,11 @@
         "regex": "GoldenDict\\+\\+OCR_([\\w]+)"
     },
     "autoupdate": {
+        "extract_dir": "nwDeployed-GoldenDict-OCR_$version\\bin5_x64_msvc",
         "architecture": {
             "64bit": {
                 "url": "https://github.com/nonwill/nwDeployed/archive/GoldenDict++OCR_$version.zip"
             }
-        },
-        "extract_dir": "nwDeployed-$version"
+        }
     }
 }
