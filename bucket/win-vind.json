@@ -1,41 +1,39 @@
 {
-  "version": "3.2.2",
-  "description": "Simple Vim Key Binder for Windows",
-  "homepage": "https://github.com/pit-ray/win-vind",
-  "license": {
-    "identifier": "MIT",
-    "url": "https://github.com/pit-ray/win-vind/blob/master/LICENSE.txt"
-  },
-  "architecture": {
-    "64bit": {
-      "url": "https://github.com/pit-ray/win-vind/releases/download/v3.2.2/win-vind_3.2.2_64bit.zip",
-      "hash": "90D4060A3AFE8DA7B8808CDEB63BEB6EDE6AE16091BBE505BCB3863F5AC62502"
+    "version": "3.2.3",
+    "description": "Simple Vim Key Binder for Windows",
+    "homepage": "https://github.com/pit-ray/win-vind",
+    "license": {
+        "identifier": "MIT",
+        "url": "https://github.com/pit-ray/win-vind/blob/master/LICENSE.txt"
     },
-    "32bit": {
-      "url": "https://github.com/pit-ray/win-vind/releases/download/v3.2.2/win-vind_3.2.2_32bit.zip",
-      "hash": "BF4E01E3B8A0FE99A8446E57E9D2258CAC9E1F915A8585514791275E90B6DD10"
-    }
-  },
-  "bin": [
-    "win-vind.exe"
-  ],
-  "shortcuts": [
-    [
-      "win-vind.exe",
-      "win-vind"
-    ]
-  ],
-  "extract_dir": "win-vind",
-  "persist": "config",
-  "checkver": "github",
-  "autoupdate": {
     "architecture": {
-      "64bit": {
-        "url": "https://github.com/pit-ray/win-vind/releases/download/v$version/win-vind_$version_64bit.zip"
-      },
-      "32bit": {
-        "url": "https://github.com/pit-ray/win-vind/releases/download/v$version/win-vind_$version_32bit.zip"
-      }
+        "64bit": {
+            "url": "https://github.com/pit-ray/win-vind/releases/download/v3.2.3/win-vind_3.2.3_64bit.zip",
+            "hash": "057dac4603e357ed46426cbbac990f97fa3969b8bd3610de4b2863d344124534"
+        },
+        "32bit": {
+            "url": "https://github.com/pit-ray/win-vind/releases/download/v3.2.3/win-vind_3.2.3_32bit.zip",
+            "hash": "29fe12d9ebe83e2ba67dfaadcb3fbeb063fca92574e511047c9f560711008569"
+        }
+    },
+    "bin": "win-vind.exe",
+    "shortcuts": [
+        [
+            "win-vind.exe",
+            "win-vind"
+        ]
+    ],
+    "extract_dir": "win-vind",
+    "persist": "config",
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/pit-ray/win-vind/releases/download/v$version/win-vind_$version_64bit.zip"
+            },
+            "32bit": {
+                "url": "https://github.com/pit-ray/win-vind/releases/download/v$version/win-vind_$version_32bit.zip"
+            }
+        }
     }
-  }
 }
