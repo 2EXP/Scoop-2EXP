@@ -1,7 +1,7 @@
 {
   "version": "0.7.2",
   "description": "Kiko Play with vapoursynth capability",
-  "homepage": "https://github.com/Protostars/KikoPlay",
+  "homepage": "https://github.com/KikoPlayProject/KikoPlay",
   "license": "GPL-3.0-only",
   "notes": "Only work with vapoursynth64.",
   "depends": "vapoursynth",
@@ -24,6 +24,6 @@
   ],
   "checkver": "github",
   "autoupdate": {
-    "url": "https://github.com/Protostars/KikoPlay/releases/download/$version/$version.zip"
+    "url": "https://github.com/KikoPlayProject/KikoPlay/releases/download/$version/$version_win_x64.zip"
   }
 }
