@@ -15,7 +15,7 @@
     "architecture": {
         "64bit": {
             "url": "https://downloads.sourceforge.net/project/mpv-player-windows/64bit/mpv-x86_64-20210404-git-dd86f19.7z",
-            "hash": "sha1:a8c99a237f548a8b8537237ea2304edcfaaf2fed",
+            "hash": "70743aaadb0d54e2a3cd519567a2883da5501180d12e646108d356172247cadb",
             "post_install": [
                 "Get-ChildItem \"$(appdir vapoursynth $global)\\current\" -Exclude doc,sdk,vapoursynth64 | ForEach-Object { Copy-Item $_.FullName (\"$dir\\\" + $_.Name) -ErrorAction Ignore } | Out-Null",
                 "New-Item -ItemType Junction -Path \"$dir\\vapoursynth64\" -Value \"$(appdir vapoursynth $global)\\current\\vapoursynth64\" -ErrorAction Ignore | Out-Null"
@@ -23,7 +23,7 @@
         },
         "32bit": {
             "url": "https://downloads.sourceforge.net/project/mpv-player-windows/32bit/mpv-i686-20210404-git-dd86f19.7z",
-            "hash": "sha1:02bbf2d64e1621d1d035cd7ed963545b6724a87c",
+            "hash": "206db83d41fcc1496bd345294c73614f7c0f3127cccb129245f037e6465772a6",
             "post_install": [
                 "Get-ChildItem \"$(appdir vapoursynth $global)\\current\" -Exclude doc,sdk,vapoursynth32 | ForEach-Object { Copy-Item $_.FullName (\"$dir\\\" + $_.Name) -ErrorAction Ignore } | Out-Null",
                 "New-Item -ItemType Junction -Path \"$dir\\vapoursynth32\" -Value \"$(appdir vapoursynth $global)\\current\\vapoursynth32\" -ErrorAction Ignore | Out-Null"
