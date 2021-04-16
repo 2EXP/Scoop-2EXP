@@ -1,69 +1,67 @@
 {
-  "version": "6.1.6.2",
-  "description": "基于 CUI 的 foobar2000 界面配置",
-  "homepage": "https://github.com/dream7180/foobox-cn",
-  "architecture": {
-    "64bit": {
-      "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.2.zip",
-      "hash": "B47F75261589CBC9C97A064294D8F4F62ED32546CA5014B6BE51FBCA9044AD0C"
-    },
-    "32bit": {
-      "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.2.zip",
-      "hash": "B47F75261589CBC9C97A064294D8F4F62ED32546CA5014B6BE51FBCA9044AD0C"
-    }
-  },
-  "bin": [
-    "foobar2000.exe"
-  ],
-  "shortcuts": [
-    [
-      "foobar2000.exe",
-      "Foobar2000"
-    ]
-  ],
-  "extract_dir": "foobox-cn-6.1.6.2\\NSIS Source",
-  "persist": [
-    "configuration",
-    "index-data",
-    "library",
-    "playlists-v1.4",
-    "user-components",
-    "components\\scripts",
-    "Lyrics",
-    "MusicArt"
-  ],
-  "pre_install": [
-    "Copy-Item \"$dir\\foobar2000-extra\\*\" \"$dir\\foobar2000-core\\\" -Recurse -Force",
-    "Get-ChildItem -Path \"$dir\\\" -Exclude \"foobar2000-core\" | Remove-Item -Recurse -Force",
-    "Move-Item \"$dir\\foobar2000-core\\*\" \"$dir\\\" -Force",
-    "Remove-Item \"$dir\\foobar2000-core\\\" -Force"
-  ],
-  "installer": {
-    "script": [
-      "New-Item \"$dir\\portable_mode_enabled\" -Force | Out-Null",
-      "if (Test-Path \"$persist_dir\\theme.fth\") {",
-      "    Copy-Item \"$persist_dir\\theme.fth\" \"$dir\" -Force",
-      "}"
-    ]
-  },
-  "post_install": "if (is_directory \"$dir\\theme.fth\") { Remove-Item \"$dir\\theme.fth\" -Force }",
-  "uninstaller": {
-    "script": [
-      "if (Test-Path \"$dir\\theme.fth\") {",
-      "    Copy-Item \"$dir\\theme.fth\" \"$persist_dir\" -Force",
-      "}"
-    ]
-  },
-  "checkver": "github",
-  "autoupdate": {
-    "extract_dir": "foobox-cn-$version\\NSIS Source",
+    "version": "6.1.6.5",
+    "description": "基于 CUI 的 foobar2000 界面配置",
+    "homepage": "https://github.com/dream7180/foobox-cn",
     "architecture": {
-      "64bit": {
-        "url": "https://github.com/dream7180/foobox-cn/archive/$version.zip"
-      },
-      "32bit": {
-        "url": "https://github.com/dream7180/foobox-cn/archive/$version.zip"
-      }
+        "64bit": {
+            "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.5.zip",
+            "hash": "73a965357d4fc0c99693b9271cc8b281c3a33056afb7c8b789b82fad45de02c2"
+        },
+        "32bit": {
+            "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.5.zip",
+            "hash": "73a965357d4fc0c99693b9271cc8b281c3a33056afb7c8b789b82fad45de02c2"
+        }
+    },
+    "bin": "foobar2000.exe",
+    "shortcuts": [
+        [
+            "foobar2000.exe",
+            "Foobar2000"
+        ]
+    ],
+    "extract_dir": "foobox-cn-6.1.6.5\\NSIS Source",
+    "persist": [
+        "configuration",
+        "index-data",
+        "library",
+        "playlists-v1.4",
+        "user-components",
+        "components\\scripts",
+        "Lyrics",
+        "MusicArt"
+    ],
+    "pre_install": [
+        "Copy-Item \"$dir\\foobar2000-extra\\*\" \"$dir\\foobar2000-core\\\" -Recurse -Force",
+        "Get-ChildItem -Path \"$dir\\\" -Exclude \"foobar2000-core\" | Remove-Item -Recurse -Force",
+        "Move-Item \"$dir\\foobar2000-core\\*\" \"$dir\\\" -Force",
+        "Remove-Item \"$dir\\foobar2000-core\\\" -Force"
+    ],
+    "installer": {
+        "script": [
+            "New-Item \"$dir\\portable_mode_enabled\" -Force | Out-Null",
+            "if (Test-Path \"$persist_dir\\theme.fth\") {",
+            "    Copy-Item \"$persist_dir\\theme.fth\" \"$dir\" -Force",
+            "}"
+        ]
+    },
+    "post_install": "if (is_directory \"$dir\\theme.fth\") { Remove-Item \"$dir\\theme.fth\" -Force }",
+    "uninstaller": {
+        "script": [
+            "if (Test-Path \"$dir\\theme.fth\") {",
+            "    Copy-Item \"$dir\\theme.fth\" \"$persist_dir\" -Force",
+            "}"
+        ]
+    },
+    "checkver": "github",
+    "autoupdate": {
+        "extract_dir": "foobox-cn-$version\\NSIS Source",
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/dream7180/foobox-cn/archive/$version.zip"
+            },
+            "32bit": {
+                "url": "https://github.com/dream7180/foobox-cn/archive/$version.zip"
+            }
+        }
     }
-  }
 }
