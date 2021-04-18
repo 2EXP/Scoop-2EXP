@@ -1,42 +1,42 @@
 {
-  "version": "2.0.0",
-  "description": "Another clash gui for windows with integrated API and ultra-small memory consumption",
-  "homepage": "https://github.com/lzdnico/ClashWeb",
-  "license": "GPL-3.0-only",
-  "depends": "clash-premium",
-  "architecture": {
-    "64bit": {
-      "url": "https://github.com/lzdnico/ClashWeb/releases/download/ClashWeb2.0.0/ClashWebRelease2.0.0.7z",
-      "hash": "10c7c96b7c0ff8e8241f4e3ef5ce40f5b79142e90612f9703444915bb9f31b05"
-    }
-  },
-  "extract_dir": "ClashWebRelease2.0.0",
-  "shortcuts": [
-    [
-      "ClashWeb.exe",
-      "ClashWeb"
-    ]
-  ],
-  "persist": [
-    "Profile\\ruleset",
-    "Profile\\config.yaml",
-    "Profile\\defaultconfig\\tunconfig.yaml"
-  ],
-  "post_install": [
-    "Remove-Item \"$dir\\App\\clash64.exe\",\"$dir\\App\\clash-win64.exe\"",
-    "Copy-Item \"$(appdir clash-premium $global)\\current\\clash-windows-amd64.exe\" \"$dir\\App\\clash64.exe\"",
-    "Copy-Item \"$(appdir clash-premium $global)\\current\\clash-windows-amd64.exe\" \"$dir\\App\\clash-win64.exe\""
-  ],
-  "checkver": {
-    "url": "https://github.com/lzdnico/ClashWeb/releases/latest",
-    "regex": "ClashWeb([\\d.]+)"
-  },
-  "autoupdate": {
+    "version": "2.0.1",
+    "description": "Another clash gui for windows with integrated API and ultra-small memory consumption",
+    "homepage": "https://github.com/lzdnico/ClashWeb",
+    "license": "GPL-3.0-only",
+    "depends": "clash-premium",
     "architecture": {
-      "64bit": {
-        "url": "https://github.com/lzdnico/ClashWeb/releases/download/ClashWeb$version/ClashWebRelease$version.7z",
-        "extract_dir": "ClashWebRelease$version"
-      }
+        "64bit": {
+            "url": "https://github.com/lzdnico/ClashWeb/releases/download/ClashWeb2.0.1/ClashWebRelease2.0.1.7z",
+            "hash": "131c203f163626efd7bcdc1d3fcd78d6f7e0269423a5444a4a4b94960721cff8"
+        }
+    },
+    "extract_dir": "ClashWebRelease2.0.0",
+    "shortcuts": [
+        [
+            "ClashWeb.exe",
+            "ClashWeb"
+        ]
+    ],
+    "persist": [
+        "Profile\\ruleset",
+        "Profile\\config.yaml",
+        "Profile\\defaultconfig\\tunconfig.yaml"
+    ],
+    "post_install": [
+        "Remove-Item \"$dir\\App\\clash64.exe\",\"$dir\\App\\clash-win64.exe\"",
+        "Copy-Item \"$(appdir clash-premium $global)\\current\\clash-windows-amd64.exe\" \"$dir\\App\\clash64.exe\"",
+        "Copy-Item \"$(appdir clash-premium $global)\\current\\clash-windows-amd64.exe\" \"$dir\\App\\clash-win64.exe\""
+    ],
+    "checkver": {
+        "url": "https://github.com/lzdnico/ClashWeb/releases/latest",
+        "regex": "ClashWeb([\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/lzdnico/ClashWeb/releases/download/ClashWeb$version/ClashWebRelease$version.7z",
+                "extract_dir": "ClashWebRelease$version"
+            }
+        }
     }
-  }
 }
