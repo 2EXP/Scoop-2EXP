@@ -10,7 +10,7 @@
             "hash": "131c203f163626efd7bcdc1d3fcd78d6f7e0269423a5444a4a4b94960721cff8"
         }
     },
-    "extract_dir": "ClashWebRelease2.0.0",
+    "extract_dir": "ClashWebRelease2.0.1",
     "shortcuts": [
         [
             "ClashWeb.exe",
@@ -32,6 +32,7 @@
         "regex": "ClashWeb([\\d.]+)"
     },
     "autoupdate": {
+        "extract_dir": "ClashWebRelease$version",
         "architecture": {
             "64bit": {
                 "url": "https://github.com/lzdnico/ClashWeb/releases/download/ClashWeb$version/ClashWebRelease$version.7z",
