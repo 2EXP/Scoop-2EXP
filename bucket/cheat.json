@@ -1,31 +1,27 @@
 {
-  "version": "4.2.0",
-  "description": "cheat allows you to create and view interactive cheatsheets on the command-line",
-  "homepage": "https://github.com/cheat/cheat",
-  "license": {
-    "identifier": "MIT",
-    "url": "https://github.com/cheat/cheat/blob/master/LICENSE.txt"
-  },
-  "architecture": {
-    "64bit": {
-      "url": "https://github.com/cheat/cheat/releases/download/4.2.0/cheat-windows-amd64.exe.zip",
-      "hash": "3803592421be3c8f93f62e9019aaeb72eece15fd3b210736aa55cc08ac4e586d"
-    }
-  },
-  "extract_dir": "dist",
-  "persist": "config",
-  "post_install": [
-    "Rename-Item \"$dir\\cheat-windows-amd64.exe\" cheat.exe"
-  ],
-  "bin": [
-    "cheat.exe"
-  ],
-  "checkver": "github",
-  "autoupdate": {
+    "version": "4.2.1",
+    "description": "cheat allows you to create and view interactive cheatsheets on the command-line",
+    "homepage": "https://github.com/cheat/cheat",
+    "license": {
+        "identifier": "MIT",
+        "url": "https://github.com/cheat/cheat/blob/master/LICENSE.txt"
+    },
     "architecture": {
-      "64bit": {
-        "url": "https://github.com/cheat/cheat/releases/download/$version/cheat-windows-amd64.exe.zip"
-      }
+        "64bit": {
+            "url": "https://github.com/cheat/cheat/releases/download/4.2.1/cheat-windows-amd64.exe.zip",
+            "hash": "26ca9f8cbd700417f570711ffc8a89355b013cf07502b7361674c775de54297d"
+        }
+    },
+    "extract_dir": "dist",
+    "persist": "config",
+    "post_install": "Rename-Item \"$dir\\cheat-windows-amd64.exe\" cheat.exe",
+    "bin": "cheat.exe",
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/cheat/cheat/releases/download/$version/cheat-windows-amd64.exe.zip"
+            }
+        }
     }
-  }
 }
