@@ -1,12 +1,12 @@
 {
-    "version": "2021.04.08",
+    "version": "2021.05.08",
     "description": "clash premium core for clashweb",
     "homepage": "https://github.com/Dreamacro/clash",
     "license": "GPL-3.0-only",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/Dreamacro/clash/releases/download/premium/clash-windows-amd64-2021.04.08.zip",
-            "hash": "cac3f52001097cc5d024c2e5996b7d795f54cf23084b898c8ca59f8db3153de2"
+            "url": "https://github.com/Dreamacro/clash/releases/download/premium/clash-windows-amd64-2021.05.08.zip",
+            "hash": "bf175ddbd8a58412077cdc722285500d5be9324a9615caecb3b02477c2475d03"
         }
     },
     "checkver": {
