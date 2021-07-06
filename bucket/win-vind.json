@@ -1,5 +1,5 @@
 {
-    "version": "4.0.0",
+    "version": "4.0.1",
     "description": "Simple Vim Key Binder for Windows",
     "homepage": "https://github.com/pit-ray/win-vind",
     "license": {
@@ -8,12 +8,12 @@
     },
     "architecture": {
         "64bit": {
-            "url": "https://github.com/pit-ray/win-vind/releases/download/v4.0.0/win-vind_4.0.0_64bit.zip",
-            "hash": "68a07d442264670b1b3d5db5dc75d57a2d07e0fdd5c3c668b9ae07d2447677b8"
+            "url": "https://github.com/pit-ray/win-vind/releases/download/v4.0.1/win-vind_4.0.1_64bit.zip",
+            "hash": "27d4c43a819765763e57e1ddba9b0acce1c91a981bbe5f708ed1f0fd61ed383b"
         },
         "32bit": {
-            "url": "https://github.com/pit-ray/win-vind/releases/download/v4.0.0/win-vind_4.0.0_32bit.zip",
-            "hash": "7ef8bcfbba3218fdf7815a0cd96604c7916f2dea46b24e305f49ab3822430562"
+            "url": "https://github.com/pit-ray/win-vind/releases/download/v4.0.1/win-vind_4.0.1_32bit.zip",
+            "hash": "845034e23b9f2ef9245e32dd409e52bf09785b13ea3399a64353d6c5525bd2f4"
         }
     },
     "bin": "win-vind.exe",
