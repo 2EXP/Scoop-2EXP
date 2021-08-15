@@ -1,5 +1,5 @@
 {
-    "version": "20210801",
+    "version": "20210815",
     "description": "mpv with vapoursynth capability",
     "homepage": "https://mpv.io",
     "license": "LGPL-2.1-or-later,GPL-2.0-or-later",
@@ -14,16 +14,16 @@
     "depends": "vapoursynth",
     "architecture": {
         "64bit": {
-            "url": "https://downloads.sourceforge.net/project/mpv-player-windows/64bit/mpv-x86_64-20210801-git-416668d.7z",
-            "hash": "sha1:c40969e98423af1b43204bc8b22310e11a8a15bb",
+            "url": "https://downloads.sourceforge.net/project/mpv-player-windows/64bit/mpv-x86_64-20210815-git-0c9e1e3.7z",
+            "hash": "sha1:10646972b205c00bf902bda2ecb63d0faf57fbec",
             "post_install": [
                 "Get-ChildItem \"$(appdir vapoursynth $global)\\current\" -Exclude doc,sdk,vapoursynth64 | ForEach-Object { Copy-Item $_.FullName (\"$dir\\\" + $_.Name) -ErrorAction Ignore } | Out-Null",
                 "New-Item -ItemType Junction -Path \"$dir\\vapoursynth64\" -Value \"$(appdir vapoursynth $global)\\current\\vapoursynth64\" -ErrorAction Ignore | Out-Null"
             ]
         },
         "32bit": {
-            "url": "https://downloads.sourceforge.net/project/mpv-player-windows/32bit/mpv-i686-20210801-git-416668d.7z",
-            "hash": "sha1:df6d0aa7e08da8c379c356151c95aca16547cb90",
+            "url": "https://downloads.sourceforge.net/project/mpv-player-windows/32bit/mpv-i686-20210815-git-0c9e1e3.7z",
+            "hash": "sha1:6e514a48d27bfb1d57a4026788cff5f64b8ae7aa",
             "post_install": [
                 "Get-ChildItem \"$(appdir vapoursynth $global)\\current\" -Exclude doc,sdk,vapoursynth32 | ForEach-Object { Copy-Item $_.FullName (\"$dir\\\" + $_.Name) -ErrorAction Ignore } | Out-Null",
                 "New-Item -ItemType Junction -Path \"$dir\\vapoursynth32\" -Value \"$(appdir vapoursynth $global)\\current\\vapoursynth32\" -ErrorAction Ignore | Out-Null"
