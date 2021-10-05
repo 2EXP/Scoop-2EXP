@@ -17,7 +17,7 @@
     "extract_to": "IDE",
     "pre_install": [
         "if (Test-Path \"$persist_dir\\profile\\config\\eval\") {",
-        "    Remove-Item \"$persist_dir\\profile\\config\\eval -Force",
+        "    Remove-Item \"$persist_dir\\profile\\config\\eval\" -Force",
         "}"
     ],
     "installer": {
