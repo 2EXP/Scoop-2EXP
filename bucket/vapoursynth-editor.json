@@ -1,5 +1,5 @@
 {
-    "version": "6.3",
+    "version": "6.4",
     "description": "VapourSynth Editor",
     "homepage": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/downloads/",
     "license": {
@@ -8,11 +8,11 @@
     },
     "architecture": {
         "64bit": {
-            "url": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/downloads/VapourSynthEditor2-R6.3-64bit.7z",
-            "hash": "f103fc8179943c7702fb64c4d78f30bc95aa0ab0998dd8b8fec0b0d10ddc7a4a"
+            "url": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/downloads/VapourSynthEditor2-R6.4-64bit.7z",
+            "hash": "c7078776c86b5b13f43b367f2f96d890b64697e743231ee19534cf93bd627732"
         }
     },
-    "extract_dir": "VapourSynthEditor2-R6.3-64bit",
+    "extract_dir": "VapourSynthEditor2-R6.4-64bit",
     "shortcuts": [
         [
             "vsedit.exe",
