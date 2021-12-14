@@ -1,5 +1,5 @@
 {
-    "version": "1.12.2931.0",
+    "version": "1.12.3472.0",
     "description": "The new Windows Terminal, and the original Windows console host - all in the same place!",
     "homepage": "https://github.com/microsoft/terminal",
     "license": "MIT",
@@ -10,15 +10,15 @@
         "Add Windows Terminal as a context menu option by running: \"$dir\\windows-terminal-install-context.reg\"",
         "Remove Windows Terminal as a context menu option by running: \"$dir\\windows-terminal-uninstall-context.reg\""
     ],
-    "changelog": "https://github.com/microsoft/terminal/releases/tag/v1.12.2931.0",
+    "changelog": "https://github.com/microsoft/terminal/releases/tag/v1.12.3472.0",
     "pre_download": "Assert-WindowsMinimalVersion '10.0.18362'",
     "url": [
-        "https://github.com/microsoft/terminal/releases/download/v1.12.2931.0/Microsoft.WindowsTerminalPreview_1.12.2931.0_8wekyb3d8bbwe.msixbundle#/dl.7z",
+        "https://github.com/microsoft/terminal/releases/download/v1.12.3472.0/Microsoft.WindowsTerminalPreview_1.12.3472.0_8wekyb3d8bbwe.msixbundle#/dl.7z",
         "https://raw.githubusercontent.com/2EXP/Scoop-2EXP/master/scripts/windows-terminal-preview/windows-terminal-install-context.reg",
         "https://raw.githubusercontent.com/2EXP/Scoop-2EXP/master/scripts/windows-terminal-preview/windows-terminal-uninstall-context.reg"
     ],
     "hash": [
-        "ef8625465786c26d2e25b59fbcc09014e298822f609c143e6b30ee840c584b3b",
+        "715f0ca49ad280f441de8edf48f7498c7a3b36ae7dd3796aaa7e2da4dc5f4761",
         "ee3d0c88bc0652d0488986d5e9743c9cc180e393a17465f3625eb517f97786e6",
         "94c103a259be4456bed5ca170f9e7697a44d13bdf1e279142b05003fb1b4345d"
     ],
