@@ -1,10 +1,10 @@
 {
-    "version": "20210513-v60",
+    "version": "20220111-v61",
     "description": "Linux kernel used in Windows Subsystem for Linux 2 (WSL2)",
     "homepage": "https://github.com/nathanchance/WSL2-Linux-Kernel",
     "license": "GPL-2.0-only",
-    "url": "https://github.com/nathanchance/WSL2-Linux-Kernel/releases/download/wsl2-cbl-kernel-next-20210513-v60/bzImage",
-    "hash": "4f9087f93516229e6a10b206eb277e07828ef200f8476c1574191f73ae23684c",
+    "url": "https://github.com/nathanchance/WSL2-Linux-Kernel/releases/download/wsl2-cbl-kernel-next-20220111-v61/bzImage",
+    "hash": "a4781e2e2da7a9c44be017d4c9ab0c3747a987a77c500566a1ce6defa9fa05fb",
     "checkver": {
         "url": "https://api.github.com/repos/nathanchance/WSL2-Linux-Kernel/releases",
         "regex": "releases/tag/wsl2-cbl-kernel-next-([\\d.]+-[\\w.]+)"
