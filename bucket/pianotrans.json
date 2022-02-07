@@ -6,8 +6,11 @@
     "depends": "ffmpeg-shared",
     "url": "https://github.com/azuwis/pianotrans/releases/download/v0.2.1/PianoTrans-v0.2.1.7z",
     "bin": "PianoTrans.exe",
+    "shortcuts": [["PianoTrans.exe", "PianoTrans"]],
+    "extract_dir": "PianoTrans-v0.2.1",
     "checkver": "github",
     "autoupdate": {
+        "extract_dir": "PianoTrans-v$version",
         "url": "https://github.com/azuwis/pianotrans/releases/download/v$version/PianoTrans-v$version.7z"
     }
 }
