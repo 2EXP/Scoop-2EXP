@@ -1,0 +1,21 @@
+{
+    "version": "3.5.7",
+    "description": "Manage your dotfiles across multiple diverse machines, securely",
+    "homepage": "https://github.com/twpayne/chezmoi",
+    "license": {
+        "identifier": "MIT",
+        "url": "https://github.com/twpayne/chezmoi/blob/master/LICENSE"
+    },
+    "url": "http://chiner-release.httpchk.com/CHINER-win_v3.5.7.rar#/dl.7z",
+    "hash": "c733b9ae720b26b47ec16800a5557e4234c8975f161b88fccc0df17e8c6a87a4",
+    "bin": ["CHINER元数建模.exe"],
+    "extract_dir": "win-ia32-unpacked",
+    "shortcuts": [["CHINER元数建模.exe", "CHINER元数建模"]],
+    "checkver": {
+        "url": "https://gitee.com/robergroup/chiner/releases",
+        "regex": "CHINER-win_v([\\w.]+).rar"
+    },
+    "autoupdate": {
+        "url": "http://chiner-release.httpchk.com/CHINER-win_v$version.rar#/dl.7z"
+    }
+}
