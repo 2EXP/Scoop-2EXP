@@ -1,0 +1,13 @@
+{
+    "version": "0.2.1",
+    "description": "A fast, simple and clean video downloader built with Go.",
+    "homepage": "https://github.com/iawia002/annie",
+    "license": "MIT",
+    "depends": "ffmpeg-shared",
+    "url": "https://github.com/azuwis/pianotrans/releases/download/v0.2.1/PianoTrans-v0.2.1.7z",
+    "bin": "PianoTrans.exe",
+    "checkver": "github",
+    "autoupdate": {
+        "url": "https://github.com/azuwis/pianotrans/releases/download/v$version/PianoTrans-v$version.7z"
+    }
+}
