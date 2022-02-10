@@ -9,7 +9,7 @@
     "architecture": {
         "64bit": {
             "url": "https://download3.vmware.com/software/wkst/file/VMware-workstation-full-16.2.2-19200509.exe#/cosi.exe",
-            "hash": "342e92eed1ed1b90b11eda462d5bfc40252cdfdd247112be00fba51d4f8f7525",
+            "hash": "1d490ee32539c2eb8d5d1b726d8f64195cd30d6fc23cf0d5e7eaef50e156ca98",
             "installer": {
                 "args": [
                     "/s",
