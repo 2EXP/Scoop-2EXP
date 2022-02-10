@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@main
     - name: PullRequestHandler
-      uses: Ash258/Scoop-GithubActions@stable-win
+      uses: shovel-org/GithubActions@main
       env:
         SHOVEL: '1'
         GITH_EMAIL: 26007713+2EXP@users.noreply.github.com
