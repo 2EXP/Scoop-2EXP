@@ -1,31 +1,29 @@
 {
-  "version": "89",
-  "description": "Keyboard configuration tool that re-maps keys and modifier-key-combos at a very low level",
-  "homepage": "https://github.com/cajhin/capsicain",
-  "depends": "keyboard-interception",
-  "architecture": {
-    "64bit": {
-      "url": "https://github.com/cajhin/capsicain/releases/download/v89/capsicain_v89.zip",
-      "hash": "9DEE7980DA2438C83E25ADE2BB1B805EE196916C762745625644FA6B62B0FAF9"
-    },
-    "32bit": {
-      "url": "https://github.com/cajhin/capsicain/releases/download/v89/capsicain_v89.zip",
-      "hash": "9DEE7980DA2438C83E25ADE2BB1B805EE196916C762745625644FA6B62B0FAF9"
-    }
-  },
-  "bin": [
-    "capsicain.exe"
-  ],
-  "persist": "capsicain.ini",
-  "checkver": "github",
-  "autoupdate": {
+    "version": "93",
+    "description": "Keyboard configuration tool that re-maps keys and modifier-key-combos at a very low level",
+    "homepage": "https://github.com/cajhin/capsicain",
+    "depends": "keyboard-interception",
     "architecture": {
-      "64bit": {
-        "url": "https://github.com/cajhin/capsicain/releases/download/v$version/capsicain_v$version.zip"
-      },
-      "32bit": {
-        "url": "https://github.com/cajhin/capsicain/releases/download/v$version/capsicain_v$version.zip"
-      }
+        "64bit": {
+            "url": "https://github.com/cajhin/capsicain/releases/download/v93/capsicain_v93.zip",
+            "hash": "01ef4186891a12ec324717ed3b26a9ff726380e7280ad18a828a545327da3299"
+        },
+        "32bit": {
+            "url": "https://github.com/cajhin/capsicain/releases/download/v93/capsicain_v93.zip",
+            "hash": "01ef4186891a12ec324717ed3b26a9ff726380e7280ad18a828a545327da3299"
+        }
+    },
+    "bin": "capsicain.exe",
+    "persist": "capsicain.ini",
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/cajhin/capsicain/releases/download/v$version/capsicain_v$version.zip"
+            },
+            "32bit": {
+                "url": "https://github.com/cajhin/capsicain/releases/download/v$version/capsicain_v$version.zip"
+            }
+        }
     }
-  }
 }
