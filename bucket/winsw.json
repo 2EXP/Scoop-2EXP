@@ -1,5 +1,5 @@
 {
-    "version": "3.0.0-alpha.9",
+    "version": "3.0.0-alpha.10",
     "description": "WinSW wraps and manages any application as a Windows service",
     "homepage": "https://github.com/winsw/winsw",
     "license": {
@@ -8,12 +8,12 @@
     },
     "architecture": {
         "64bit": {
-            "url": "https://github.com/winsw/winsw/releases/download/v3.0.0-alpha.9/WinSW-net461.exe",
-            "hash": "9633d33420b6213213be4e642465c665f877dc6bdb5edc76871e9e79435290e0"
+            "url": "https://github.com/winsw/winsw/releases/download/v3.0.0-alpha.10/WinSW-net461.exe",
+            "hash": "3c0671e7b6914512062895b5c96f6b9cf16a83889e235a2948379e6e329296e7"
         },
         "32bit": {
-            "url": "https://github.com/winsw/winsw/releases/download/v3.0.0-alpha.9/WinSW-net461.exe",
-            "hash": "9633d33420b6213213be4e642465c665f877dc6bdb5edc76871e9e79435290e0"
+            "url": "https://github.com/winsw/winsw/releases/download/v3.0.0-alpha.10/WinSW-net461.exe",
+            "hash": "3c0671e7b6914512062895b5c96f6b9cf16a83889e235a2948379e6e329296e7"
         }
     },
     "bin": [
