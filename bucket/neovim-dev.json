@@ -15,17 +15,9 @@
             "hash": "fe16d354bb0013e1c80b42f45da7dcbbf882034468d895f689d804e730f45217"
         }
     },
-    "extract_dir": "Neovim",
-    "bin": [
-        "bin\\nvim.exe",
-        "bin\\nvim-qt.exe"
-    ],
-    "shortcuts": [
-        [
-            "bin\\nvim-qt.exe",
-            "Neovim"
-        ]
-    ],
+    "extract_dir": "nvim-win64",
+    "bin": ["bin\\nvim.exe", "bin\\nvim-qt.exe"],
+    "shortcuts": [["bin\\nvim-qt.exe", "Neovim"]],
     "checkver": {
         "url": "https://api.github.com/repos/neovim/neovim/releases",
         "regex": "NVIM v([\\w.-]+)\\+([\\w.-]+)",
