@@ -1,15 +1,15 @@
 {
-    "version": "6.1.6.10",
+    "version": "6.1.6.11",
     "description": "基于 CUI 的 foobar2000 界面配置",
     "homepage": "https://github.com/dream7180/foobox-cn",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.10.zip",
-            "hash": "feed19582265b3faa4cc91a74678fc5a0064abf03d8b28ac15cfaa733e0d7a85"
+            "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.11.zip",
+            "hash": "987b597be995b42b7e42c6e18fabbe0c9b9a003dd6509b23e5bd46c17bb04a10"
         },
         "32bit": {
-            "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.10.zip",
-            "hash": "feed19582265b3faa4cc91a74678fc5a0064abf03d8b28ac15cfaa733e0d7a85"
+            "url": "https://github.com/dream7180/foobox-cn/archive/6.1.6.11.zip",
+            "hash": "987b597be995b42b7e42c6e18fabbe0c9b9a003dd6509b23e5bd46c17bb04a10"
         }
     },
     "bin": "foobar2000.exe",
@@ -19,7 +19,7 @@
             "Foobar2000"
         ]
     ],
-    "extract_dir": "foobox-cn-6.1.6.10\\NSIS Source",
+    "extract_dir": "foobox-cn-6.1.6.11\\NSIS Source",
     "persist": [
         "configuration",
         "index-data",
