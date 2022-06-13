@@ -1,13 +1,13 @@
 {
-    "version": "3.2.2",
+    "version": "3.3.0",
     "description": "Get-ChildItemColor provides colorization of outputs of Get-ChildItem Cmdlet of PowerShell",
     "homepage": "https://github.com/joonro/Get-ChildItemColor",
     "license": {
         "identifier": "MIT",
         "url": "https://github.com/joonro/Get-ChildItemColor/blob/develop/LICENSE"
     },
-    "url": "https://psg-prod-eastus.azureedge.net/packages/get-childitemcolor.3.2.2.nupkg",
-    "hash": "4fd362f874b1a4b4ab81a2f8369cbfea962d2ee48439635ad6163a3edd8fd71d",
+    "url": "https://psg-prod-eastus.azureedge.net/packages/get-childitemcolor.3.3.0.nupkg",
+    "hash": "e42a8e10dc4237c87e55d1315846b3a12bcc70ad3f8fa32831d559c2205c05b6",
     "psmodule": {
         "name": "Get-ChildItemColor"
     },
