@@ -1,16 +1,22 @@
 {
-    "version": "0.15.6",
+    "version": "1.5.16",
     "description": "Airplay Receiver SDK supports Airplay Mirroring and AirPlay Casting to a receiver device.",
     "homepage": "https://github.com/xfirefly/Airplay-SDK",
     "license": "MIT",
     "url": "https://github.com/xfirefly/Airplay-SDK/releases/download/1.5.16/win-airplay.zip",
     "hash": "8b9147aeca757bc36f30e98c7481ec302d2be6de1b893a6f2ad80864f1106fb3",
     "shortcuts": [
-        ["Blueberry-Airplay.exe", "Blueberry Airplay"],
-        ["Blueberry-Airplay-Youtube.exe", "Blueberry Airplay Youtube"]
+        [
+            "Blueberry-Airplay.exe",
+            "Blueberry Airplay"
+        ],
+        [
+            "Blueberry-Airplay-Youtube.exe",
+            "Blueberry Airplay Youtube"
+        ]
     ],
     "extract_dir": "win-airplay",
-    "post_install": ["msiexec.exe /i \"$dir\\Bonjour64.msi\""],
+    "post_install": "msiexec.exe /i \"$dir\\Bonjour64.msi\"",
     "checkver": "github",
     "autoupdate": {
         "url": "https://github.com/xfirefly/Airplay-SDK/releases/download/$version/win-airplay.zip"
