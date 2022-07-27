@@ -1,12 +1,12 @@
 {
     "##": "Download links https://helpx.adobe.com/au/download-install/kb/creative-cloud-desktop-app-download.html",
-    "version": "5.7.1.1",
+    "version": "5.8.0.592",
     "description": "Adobe Creative Cloud. Creative Cloud for desktop is a great place to start any creative project.",
     "homepage": "https://www.adobe.com",
     "license": "Proprietary",
     "changelog": "https://helpx.adobe.com/creative-cloud/release-note/cc-release-notes.html",
-    "url": "https://ccmdl.adobe.com/AdobeProducts/KCCC/CCD/5_7_1/win64/ACCCx5_7_1_1.zip#/setup.7z",
-    "hash": "9e64f465ccd968439f88f570081c49ec180049031b934308823dd6f69a116f70",
+    "url": "https://ccmdl.adobe.com/AdobeProducts/KCCC/CCD/5_8_0/win64/ACCCx5_8_0_592.zip#/setup.7z",
+    "hash": "0995b8ee5cd54d22e21943ffce1bff17e6efb273e2a08490011bfb012194f3c4",
     "notes": "Download latest web install version from https://creativecloud.adobe.com/apps/download/creative-cloud",
     "pre_download": "Assert-Administrator",
     "pre_install": [
