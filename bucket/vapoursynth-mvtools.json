@@ -1,12 +1,12 @@
 {
-    "version": "22",
+    "version": "23",
     "description": "MVTools is a set of filters for motion estimation and compensation",
     "homepage": "https://github.com/dubhater/vapoursynth-mvtools",
     "depends": "vapoursynth",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v22/vapoursynth-mvtools-v22-win64.7z",
-            "hash": "24b93fd2b6a9660fb2a0bffd446dc796d989241efe673eed99874c1daa87eccd",
+            "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v23/vapoursynth-mvtools-v23-win64.7z",
+            "hash": "fa2ac102b265d8e73e65d9cf6fc51627e52fd57275b87b4ff6867f8266697886",
             "installer": {
                 "script": "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
             },
@@ -15,8 +15,8 @@
             }
         },
         "32bit": {
-            "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v22/vapoursynth-mvtools-v22-win32.7z",
-            "hash": "3b33a41f3fb5b92c9d7679b74388523c02ae01d9ab7e8006dbce2debc8633a18",
+            "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v23/vapoursynth-mvtools-v23-win32.7z",
+            "hash": "cb97c196e7f9d82a642f7b9bfe3f7f6b744863b8df807644699073e59b5ab2c4",
             "installer": {
                 "script": "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
             },
