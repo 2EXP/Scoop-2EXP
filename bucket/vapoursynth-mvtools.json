@@ -1,47 +1,39 @@
 {
-  "version": "23",
-  "description": "MVTools is a set of filters for motion estimation and compensation",
-  "homepage": "https://github.com/dubhater/vapoursynth-mvtools",
-  "depends": "vapoursynth",
-  "architecture": {
-    "64bit": {
-      "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v23/vapoursynth-mvtools-v23-win64.7z",
-      "hash": "FA2AC102B265D8E73E65D9CF6FC51627E52FD57275B87B4FF6867F8266697886",
-      "installer": {
-        "script": [
-          "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
-        ]
-      },
-      "uninstaller": {
-        "script": [
-          "Remove-Item \"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\libmvtools.dll\""
-        ]
-      }
-    },
-    "32bit": {
-      "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v23/vapoursynth-mvtools-v23-win32.7z",
-      "hash": "CB97C196E7F9D82A642F7B9BFE3F7F6B744863B8DF807644699073E59B5AB2C4",
-      "installer": {
-        "script": [
-          "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
-        ]
-      },
-      "uninstaller": {
-        "script": [
-          "Remove-Item \"$(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\libmvtools.dll\""
-        ]
-      }
-    }
-  },
-  "checkver": "github",
-  "autoupdate": {
+    "version": "22",
+    "description": "MVTools is a set of filters for motion estimation and compensation",
+    "homepage": "https://github.com/dubhater/vapoursynth-mvtools",
+    "depends": "vapoursynth",
     "architecture": {
-      "64bit": {
-        "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v$version/vapoursynth-mvtools-v$version-win64.7z"
-      },
-      "32bit": {
-        "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v$version/vapoursynth-mvtools-v$version-win32.7z"
-      }
+        "64bit": {
+            "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v22/vapoursynth-mvtools-v22-win64.7z",
+            "hash": "24b93fd2b6a9660fb2a0bffd446dc796d989241efe673eed99874c1daa87eccd",
+            "installer": {
+                "script": "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
+            },
+            "uninstaller": {
+                "script": "Remove-Item \"$(appdir vapoursynth $global)\\current\\vapoursynth64\\plugins\\libmvtools.dll\""
+            }
+        },
+        "32bit": {
+            "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v22/vapoursynth-mvtools-v22-win32.7z",
+            "hash": "3b33a41f3fb5b92c9d7679b74388523c02ae01d9ab7e8006dbce2debc8633a18",
+            "installer": {
+                "script": "Get-ChildItem \"$dir\\\" | ForEach-Object { New-Item -ItemType HardLink -Path (\"$(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\\" + $_.Name) -Value $_.FullName -ErrorAction Ignore } | Out-Null"
+            },
+            "uninstaller": {
+                "script": "Remove-Item \"$(appdir vapoursynth $global)\\current\\vapoursynth32\\plugins\\libmvtools.dll\""
+            }
+        }
+    },
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v$version/vapoursynth-mvtools-v$version-win64.7z"
+            },
+            "32bit": {
+                "url": "https://github.com/dubhater/vapoursynth-mvtools/releases/download/v$version/vapoursynth-mvtools-v$version-win32.7z"
+            }
+        }
     }
-  }
 }
