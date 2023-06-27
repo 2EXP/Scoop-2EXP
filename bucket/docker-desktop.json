@@ -1,14 +1,48 @@
 {
     "$schema": "https://raw.githubusercontent.com/lukesampson/scoop/master/schema.json",
     "version": "4.20.1.110738",
-    "description": "Accelerate how you build, share, and run modern applications.",
+    "description": "docker desktop for windows",
     "homepage": "https://docker.com",
-    "license": {
-        "identifier": "Apache-2.0",
-        "url": "https://github.com/docker/cli/blob/master/LICENSE"
-    },
-    "url": "https://desktop.docker.com/win/main/amd64/110738/Docker%20Desktop%20Installer.exe#/dl.7z",
+    "license": "Proprietary",
+    "notes": [
+        "Adapted from https://github.com/akirco/aki-apps/blob/master/bucket/docker-desktop.json",
+        "",
+        "Configuration file path and options can be found here:",
+        "    https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file",
+        "",
+        "'scoop uninstall docker' will uninstall docker completely.",
+        "    Images, vms, settings, ..."
+    ],
+    "url": "https://desktop.docker.com/win/main/amd64/110738/Docker%20Desktop%20Installer.exe",
     "hash": "54bf2d57b3845b25b4f629d8b77512682d7e8371a28ed21c817489bed72ed0ef",
+    "pre_install": [
+        "if(is_admin) {",
+        "    if((Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online).State -eq 'Disabled') {",
+        "        dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart /loglevel:4 /logpath:$dir",
+        "        dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart /loglevel:4 /logpath:$dir",
+        "    }",
+        "}else{",
+        "       Write-host \"Please run as an administrator\" -ForegroundColor green",
+        "       exit",
+        "}"
+    ],
+    "bin": ["resources\\bin\\docker.exe", "resources\\bin\\docker-compose.exe"],
+    "shortcuts": [["Docker Desktop.exe", "Docker Desktop"]],
+    "installer": {
+        "args": [
+            "install",
+            "--quiet",
+            "--accept-license",
+            "--backend=wsl-2",
+            "--installation-dir=$dir",
+            "--admin-settings"
+        ],
+        "keep": true
+    },
+    "uninstaller": {
+        "file": "Docker%20Desktop%20Installer.exe",
+        "args": ["uninstall", "--quiet"]
+    },
     "checkver": {
         "url": "https://desktop.docker.com/win/main/amd64/appcast.xml",
         "xpath": "/rss/channel/item/title",
@@ -16,6 +50,6 @@
         "replace": "${version}.${build}"
     },
     "autoupdate": {
-        "url": "https://desktop.docker.com/win/main/amd64/$buildVersion/Docker%20Desktop%20Installer.exe#/dl.7z"
+        "url": "https://desktop.docker.com/win/main/amd64/$buildVersion/Docker%20Desktop%20Installer.exe"
     }
 }

@@ -1,42 +1,25 @@
 {
-    "version": "6.7",
-    "description": "VapourSynth Editor",
-    "homepage": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/downloads/",
-    "license": {
-        "identifier": "GPL-3.0-or-later",
-        "url": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/src/master/LICENSE"
-    },
+    "version": "r19-mod-6.2",
+    "description": "VapourSynth Editor - YomikoR mod",
+    "homepage": "https://github.com/YomikoR/VapourSynth-Editor",
+    "license": "GPL-3.0-or-later",
     "architecture": {
         "64bit": {
-            "url": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/downloads/VapourSynthEditor2-R6.7-64bit.7z",
-            "hash": "ca6cc76e096bee0675ddb5e386248f449c2a37b5499080c532f7c03de30e81a8"
+            "url": "https://github.com/YomikoR/VapourSynth-Editor/releases/download/r19-mod-6.2/VapourSynth_Editor-r19-mod-6.2.7z",
+            "hash": "0c14b97e18ee21fab8fc446552dc280f33a1c30f727666805fe4e82d33a0f15d"
         }
     },
-    "extract_dir": "VapourSynthEditor2-R6.7-64bit",
     "shortcuts": [
-        [
-            "vsedit.exe",
-            "VapourSynth Editor"
-        ],
-        [
-            "vsedit-job-server-watcher.exe",
-            "VSEdit Server Watcher"
-        ]
+        ["vsedit.exe", "VapourSynth Editor"],
+        ["vsedit-job-server-watcher.exe", "VSEdit Server Watcher"],
+        ["vsedit-previewer.exe", "VSEdit Previewer"]
     ],
-    "post_install": [
-        "Get-ChildItem \"$(appdir vapoursynth $global)\\current\" -Exclude doc,sdk,vapoursynth64 | ForEach-Object { Copy-Item $_.FullName (\"$dir\\\" + $_.Name) -ErrorAction Ignore } | Out-Null",
-        "New-Item -ItemType Junction -Path \"$dir\\vapoursynth64\" -Value \"$(appdir vapoursynth $global)\\current\\vapoursynth64\" -ErrorAction Ignore | Out-Null"
-    ],
-    "checkver": {
-        "url": "https://api.bitbucket.org/2.0/repositories/gundamftw/vapoursynth-editor-2/downloads",
-        "regex": "VapourSynthEditor2-R([\\d.]+)"
-    },
+    "checkver": "github",
     "autoupdate": {
         "architecture": {
             "64bit": {
-                "url": "https://bitbucket.org/gundamftw/vapoursynth-editor-2/downloads/VapourSynthEditor2-R$version-64bit.7z"
+                "url": "https://github.com/YomikoR/VapourSynth-Editor/releases/download/$version/VapourSynth_Editor-$version.7z"
             }
-        },
-        "extract_dir": "VapourSynthEditor2-R$version-64bit"
+        }
     }
 }

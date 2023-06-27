@@ -1,0 +1,30 @@
+{
+  "version": "20210224",
+  "description": "mpv lazy profile",
+  "homepage": "https://bbs.vcb-s.com/thread-5843-1-1.html",
+  "depends": "mpv-git",
+  "notes": [
+    "Original mpv profile will be backuped, and will be restored after mpv-lazy uninstallation."
+  ],
+  "url": "https://public.dm.files.1drv.com/y4mAy_X88-RtNCFQJzD20XUkPuaigUhPbMgKvZ-r431XBHmbttCd-aK0kNkcrFJ_4t1zJsqHwo8PC1o_GXPnaGIcxKNtiYWolBSBWNlPliMzyDQiytVHqbOh8D3mQh85S5lWEH7B0U_1X-d2sP92_eQszPCCaDDZAUKY47XqQAKpxhHl_zg-bl0IqiVZ_a1DPSj8GQP8EtPcXf5kTYrpjnRV3mgckl_LrwM5OZ_u4yoWtg?access_token=EwAYA61DBAAUmcDj0azQ5tf1lkBfAvHLBzXl5ugAAWMGZN2dATtrcIWu%2bUa1TaQKdCSQNDeJiA18mq20jOzwG7EfdUjs6ac/QHf9Cc1YTraWxyz4jZyW5y%2bLPKeBWWShxcG27tKk9XN5U6Z1eau4ejx/OcSs0It5rveSpMIBlh0LWo2Q3HorjNLk0aTQ2eIPKyLjpJmLMyJqwU9Gd6SgzI5lfnJIjP3zT32HLkKnbG3Y7HoWofkg01rh2h%2bfGc6nFEAom1%2bVPxABO/roWJ3UYdBW8o9Act0al8EkEb1Vw8DVHNw685JRDe6RKTobpBk7aqTRhW%2bS2m/jhoOcvO6KnvpFpQGZ6479PjDhcY3IrtvrPOVLWBRdb1axEwKLXZADZgAACLeHvUKv8zBM6AEmt7oL/dYheV48GukkAQGosHB/s4rPuqr1ZzQOd4zADIok8xvYQlFSdrsIo%2b5U8KcX4T0ZUmaAYYgo9i8PcfPOfKTgsHlt8pcuTTxcha9oCxSiVhzykTMOXoGnHse4IK7XvWH9jwQDVFvD2VFPUagioYYEs2PnKnV3aOTBLqskvJ4g6t%2b3AEdOf6ZC%2bhM3yx6QcHUSD9JkW/qMBYnbhUeJedj%2bgFlHl09SSXl0MHiVFgMbfbH1Xh1oTRN9Oym6kS17aWZ%2bdsNkzkvm6HppIW2A%2bl2Jz8nF7bxGbvyzpYtUQ6fgyy2SrY3YEhlrewAaioI3K4gYfUBoylSrnAQg%2bjaXX9swQcxort%2btRURoaPgl4HMdUZFE9o10UUtOmHGGrUmdKQoo1BBqTcm2/kSDMiS3CXtj4XmnP0zYEVuQvvfWVltxy954kAtjdbXWYHwnFfgzKhyiiINAENHKeiuDwlQ8M7lIMjjHDYVbZg%2b%2btn9zbyGPhW9Yljg9Y9N4J8MlngeU/LD6u2aQLCujHN9P0IiyklIQ1dBzb30jdN3sKkuxZ3c0gRK33fQryGndS2vRzkOpJD0fjhAwiV9Z0pynVxOy8p900HHCl/tskhlUWFyChe7JhRfseyYoD0MJ8iXQ4iRLfLuDcTW1wAcC",
+  "hash": "895E65B332B2FEB0AAFBCA0B3DAEE4071EC9C3CDC406D4BD267B1952A0F06BFA",
+  "extract_dir": "mpv-lazy\\portable_config",
+  "installer": {
+    "script": [
+      "{",
+      "  $mpv = (Split-Path $persist_dir) + '\\mpv-git\\portable_config'",
+      "  Rename-Item $mpv config_backups",
+      "  New-Item -ItemType Junction -Path $mpv -Value $dir",
+      "}"
+    ]
+  },
+  "uninstaller": {
+    "script": [
+      "{",
+      "  $mpv = (Split-Path $persist_dir) + '\\mpv-git'",
+      "  Remove-Item ($mpv + '\\portable_config')",
+      "  Rename-Item ($mpv + '\\config_backups') portable_config",
+      "}"
+    ]
+  }
+}
