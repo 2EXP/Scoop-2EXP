@@ -13,7 +13,12 @@
     "extract_dir": "mpv-lazy",
     "bin": [["mpv.exe", "mpv"]],
     "shortcuts": [["mpv.exe", "mpv"]],
-    "persist": "portable_config/mpv.conf",
+    "pre_install": [
+        "if (!(Test-Path \"$persist_dir\\portable_config\\mpv.conf\")) {",
+        "  New-Item -ItemType File \"$persist_dir\\portable_config\\mpv.conf\" -Force | Out-Null",
+        "}"
+    ],
+    "persist": "portable_config\\mpv.conf",
     "checkver": "github",
     "autoupdate": {
         "architecture": {
