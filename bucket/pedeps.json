@@ -1,0 +1,21 @@
+{
+    "version": "0.1.13",
+    "description": "Cross-platform C library to read data from PE/PE+ files (the format of Windows .exe and .dll files)",
+    "homepage": "https://github.com/brechtsanders/pedeps",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/brechtsanders/pedeps/releases/download/0.1.13/pedeps-0.1.13-win64.zip",
+            "hash": "3ac8b970f4e8525bf3fc5a699bd892a4be28bfad72946758d991ec5af18bfbeb"
+        }
+    },
+    "env_add_path": "bin",
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/brechtsanders/pedeps/releases/download/$version/pedeps$version-win64.zip"
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "version": "0.1.2",
+    "description": "minimal VapourSynth script previewer",
+    "homepage": "https://github.com/quietvoid/vspreview-rs",
+    "license": "GPL-3.0-only",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/quietvoid/vspreview-rs/releases/download/0.1.2/vspreview-rs-0.1.2-x86_64-pc-windows-msvc.zip",
+            "hash": "afd13c4f72e585c382debb1d9105e65d01c837860b7a261823e24b4961998a7d"
+        }
+    },
+    "bin": ["vspreview-rs.exe"],
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/quietvoid/vspreview-rs/releases/download/$version/vspreview-rs-$version-x86_64-pc-windows-msvc.zip"
+            }
+        }
+    }
+}
