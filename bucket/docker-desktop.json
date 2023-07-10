@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/lukesampson/scoop/master/schema.json",
-    "version": "4.20.1.110738",
+    "version": "4.21.1.114176",
     "description": "docker desktop for windows",
     "homepage": "https://docker.com",
     "license": "Proprietary",
@@ -13,8 +13,8 @@
         "'scoop uninstall docker' will uninstall docker completely.",
         "    Images, vms, settings, ..."
     ],
-    "url": "https://desktop.docker.com/win/main/amd64/110738/Docker%20Desktop%20Installer.exe",
-    "hash": "54bf2d57b3845b25b4f629d8b77512682d7e8371a28ed21c817489bed72ed0ef",
+    "url": "https://desktop.docker.com/win/main/amd64/114176/Docker%20Desktop%20Installer.exe",
+    "hash": "7d7e81a9f8273b1c404201eccf04ef67a26bbad85805d246007e9e7bc80ddd74",
     "pre_install": [
         "if(is_admin) {",
         "    if((Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online).State -eq 'Disabled') {",
@@ -26,8 +26,16 @@
         "       exit",
         "}"
     ],
-    "bin": ["resources\\bin\\docker.exe", "resources\\bin\\docker-compose.exe"],
-    "shortcuts": [["Docker Desktop.exe", "Docker Desktop"]],
+    "bin": [
+        "resources\\bin\\docker.exe",
+        "resources\\bin\\docker-compose.exe"
+    ],
+    "shortcuts": [
+        [
+            "Docker Desktop.exe",
+            "Docker Desktop"
+        ]
+    ],
     "installer": {
         "args": [
             "install",
@@ -41,7 +49,10 @@
     },
     "uninstaller": {
         "file": "Docker%20Desktop%20Installer.exe",
-        "args": ["uninstall", "--quiet"]
+        "args": [
+            "uninstall",
+            "--quiet"
+        ]
     },
     "checkver": {
         "url": "https://desktop.docker.com/win/main/amd64/appcast.xml",
