@@ -2,11 +2,11 @@
     "homepage": "https://pot.pylogmon.com/",
     "description": "A cross-platform translation software",
     "license": "GPL-3.0-only",
-    "version": "1.11.0",
+    "version": "1.11.1",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/pot-app/pot-desktop/releases/download/1.11.0/pot_1.11.0_x64-setup.exe#/dl.7z",
-            "hash": "f2bba84c25b859ad1be5f66deaef86c3ed8a4f8657aace0b8fecaf92ddc9f5cf"
+            "url": "https://github.com/pot-app/pot-desktop/releases/download/1.11.1/pot_1.11.1_x64-setup.exe#/dl.7z",
+            "hash": "62e0fcaff2fb4c31e93a2ab2a043f9cf6247f118ebc9a30d98591b5c9b19df68"
         }
     },
     "shortcuts": [
