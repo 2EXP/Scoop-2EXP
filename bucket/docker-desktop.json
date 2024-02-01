@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/lukesampson/scoop/master/schema.json",
-    "version": "4.26.1.131620",
+    "version": "4.27.1.136059",
     "description": "docker desktop for windows",
     "homepage": "https://docker.com",
     "license": "Proprietary",
@@ -13,8 +13,8 @@
         "'scoop uninstall docker' will uninstall docker completely.",
         "    Images, vms, settings, ..."
     ],
-    "url": "https://desktop.docker.com/win/main/amd64/131620/Docker%20Desktop%20Installer.exe",
-    "hash": "9f4ba791ecdaf645a73870d279fb2f2c8bd55bcb9c5d3667c7a41c586d12a094",
+    "url": "https://desktop.docker.com/win/main/amd64/136059/Docker%20Desktop%20Installer.exe",
+    "hash": "378568e64cb76d65236df258120d5270be8b9f486b4a1ee5c2d8a7492eeefa2f",
     "pre_install": [
         "if(is_admin) {",
         "    if((Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online).State -eq 'Disabled') {",
