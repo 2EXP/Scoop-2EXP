@@ -1,5 +1,5 @@
 {
-    "version": "0.9.8",
+    "version": "0.9.7",
     "description": "A GUI for VSRepo",
     "homepage": "https://github.com/theChaosCoder/VSRepoGUI",
     "license": "MIT",
@@ -7,11 +7,11 @@
         "Need to edit the vsrepogui.json to know your VapourSynth plugin and script path.",
         "See http://forum.doom9.org/archive/index.php/t-176313.html"
     ],
-    "depends": ["pedeps"],
+    "depends": "pedeps",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/theChaosCoder/VSRepoGUI/releases/download/v0.9.8/VSRepoGUI-0.9.8.zip",
-            "hash": "b5cc680dba06de76df0101b71d89b56a2e09bb304c73cb622c2e31eec400230a"
+            "url": "https://github.com/theChaosCoder/VSRepoGUI/releases/download/v0.9.7/VSRepoGUI-0.9.7.zip",
+            "hash": "8f1cd80ba01d3e2d7929b79ee91d09bd0c1a24afe680b470280d87224697a78c"
         }
     },
     "pre_install": [
@@ -19,8 +19,13 @@
         "  New-Item -ItemType File \"$persist_dir\\vsrepogui.json\" -Force | Out-Null",
         "}"
     ],
-    "persist": ["vsrepogui.json"],
-    "shortcuts": [["VSRepoGUI.exe", "VSRepo GUI"]],
+    "persist": "vsrepogui.json",
+    "shortcuts": [
+        [
+            "VSRepoGUI.exe",
+            "VSRepo GUI"
+        ]
+    ],
     "checkver": "github",
     "autoupdate": {
         "architecture": {
