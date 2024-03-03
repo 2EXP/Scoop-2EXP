@@ -1,10 +1,10 @@
 {
-    "version": "2.5.0",
+    "version": "2.5.1",
     "description": "爱传送是一款简单易用的『文件传送』『文件管理』和 『剪切板同步』工具",
     "homepage": "http://mfiles.maokebing.com/",
     "license": "Freeware",
-    "url": "https://mfiles.maokebing.com/package/mfiles-helper-2.5.0-win8-later-x86-dotnet40-green.zip",
-    "hash": "efbbfaf610327755aec251faa8e8e4731987a6be2fa90f0b172bb5652185720f",
+    "url": "https://mfiles.maokebing.com/package/mfiles-helper-2.5.1-win8-later-x86-dotnet40-green.zip",
+    "hash": "48c2044124645f43945bab8a545389e9eb267c1bfd831e0d99b702373f59a34b",
     "extract_dir": "MFiles",
     "shortcuts": [
         [
