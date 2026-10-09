@@ -1,0 +1,56 @@
+{
+    "[json]": {
+        "prettier.printWidth": 0,
+        "prettier.tabWidth": 4
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features",
+        "editor.detectIndentation": false,
+        "editor.tabSize": 4
+    },
+    "[powershell]": {
+        "editor.defaultFormatter": "ms-vscode.powershell",
+        "files.encoding": "utf8bom"
+    },
+    "cSpell.words": [
+        "psgallery"
+    ],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "filename-lint.enabled": true,
+    "filename-lint.includePatterns": [
+        "**/.github/**",
+        "**/.vscode/**",
+        "**/bin/**"
+    ],
+    "files.associations": {
+        "**/*.json": "json",
+        "**/schema/**/*.json": "jsonc"
+    },
+    "files.defaultLanguage": "json",
+    "files.insertFinalNewline": true,
+    "json-schema-plus.schemas": [
+        {
+            "fileMatch": [
+                "todo/**/*.json",
+                "bucket/**/*.json",
+                "deprecated/**/*.json"
+            ],
+            "url": "./schema/scoop-manifest.en-US.json", // 2exp 定制版本
+            // "url": "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/schema.json" // 标准版本，符合 Scoop 规范
+            "urls": [
+                {
+                    "language": "zh",
+                    "url": "./schema/scoop-manifest.zh-CN.json"
+                }
+            ]
+        }
+    ],
+    "powershell.codeFormatting.trimWhitespaceAroundPipe": true,
+    "powershell.codeFormatting.useConstantStrings": true,
+    "powershell.codeFormatting.useCorrectCasing": true,
+    "powershell.scriptAnalysis.enable": false
+}

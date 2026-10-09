@@ -1,0 +1,216 @@
+﻿#Requires -Version 7.0
+
+param(
+    [switch]$All
+)
+
+if (-not $env:SCOOP_HOME) {
+    if ($env:GITHUB_ACTIONS) {
+        $env:SCOOP_HOME = "$env:Temp\ScoopInstaller-Scoop"
+        git clone --depth 1 https://github.com/ScoopInstaller/Scoop $env:SCOOP_HOME
+    }
+    else {
+        try {
+            $env:SCOOP_HOME = Convert-Path (scoop prefix scoop)
+        }
+        catch {
+            Write-Error '$env:SCOOP_HOME is not set.'
+            exit 1
+        }
+    }
+}
+
+if (-not (Test-Path "$env:SCOOP_HOME\lib\json.ps1")) {
+    Write-Error '$env:SCOOP_HOME\lib\json.ps1 is not found.'
+    exit 1
+}
+
+. $env:SCOOP_HOME\lib\json.ps1
+
+$order_arch = [ordered]@{
+    url          = ''
+    hash         = ''
+    extract_dir  = ''
+    extract_to   = ''
+    env_add_path = ''
+    bin          = ''
+    shortcuts    = ''
+}
+$order = [ordered]@{
+    '##'                = ''
+    version             = ''
+    description         = ''
+    homepage            = ''
+    license             = [ordered]@{
+        identifier = ''
+        url        = ''
+    }
+    notes_cn            = '' # 2exp
+    notes               = ''
+    depends             = ''
+    suggest             = ''
+    url                 = ''
+    hash                = ''
+    architecture        = [ordered]@{
+        '64bit' = $order_arch
+        'arm64' = $order_arch
+        # '32bit' = $order_arch
+    }
+    renamed             = '' # 2exp
+    conflicts           = '' # 2exp
+    location            = '' # 2exp
+    extract_dir         = ''
+    extract_to          = ''
+    env_set             = ''
+    env_set_shared      = '' # 2exp
+    env_add_path        = ''
+    env_add_path_expand = '' # 2exp
+    innosetup           = ''
+    psmodule            = ''
+    font                = '' # 2exp
+    msix                = '' # 2exp
+    bin                 = ''
+    commands            = '' # 2exp
+    shortcuts           = ''
+    link                = '' # 2exp
+    persist             = ''
+    cleanup             = '' # 2exp
+    admin               = '' # 2exp
+    pre_install         = ''
+    # installer      = ''
+    post_install        = ''
+    pre_uninstall       = ''
+    # uninstaller    = ''
+    post_uninstall      = ''
+    checkver            = [ordered]@{ # 2exp
+        github         = [ordered]@{
+            channel = ''
+            repo    = ''
+            tag     = ''
+            raw     = ''
+        }
+        commit         = [ordered]@{
+            format = ''
+            path   = ''
+            branch = ''
+            repo   = ''
+        }
+        winget         = [ordered]@{
+            id  = ''
+            ext = ''
+        }
+        psgallery      = [ordered]@{
+            channel = ''
+        }
+        from_installer = ''
+        script         = ''
+        url            = ''
+        jsonpath       = ''
+        xpath          = ''
+        dynamic        = ''
+        redirect       = ''
+        reverse        = ''
+        regex          = ''
+        replace        = ''
+        max            = ''
+    }
+    autoupdate          = [ordered]@{
+        architecture = [ordered]@{
+            '64bit' = $order_arch
+            'arm64' = $order_arch
+            # '32bit' = $order_arch
+        }
+        url          = ''
+        hash         = ''
+        extract_dir  = ''
+        extract_to   = ''
+        env_add_path = ''
+        bin          = ''
+        shortcuts    = ''
+    }
+}
+
+$root = Split-Path $PSScriptRoot -Parent
+
+function Sort-JsonByOrder {
+    param(
+        [Parameter(Mandatory)]
+        [System.Collections.IDictionary]$JsonObject,
+
+        [Parameter(Mandatory)]
+        [System.Collections.IDictionary]$Order
+    )
+
+    $result = [ordered]@{}
+
+    foreach ($key in $Order.Keys) {
+        if ($JsonObject.Contains($key)) {
+            $value = $JsonObject[$key]
+            $subOrder = $Order[$key]
+
+            if ($value -is [System.Collections.IDictionary] -and $subOrder -is [System.Collections.IDictionary]) {
+                $result[$key] = Sort-JsonByOrder $value $subOrder
+            }
+            else {
+                $result[$key] = $value
+            }
+        }
+    }
+
+    foreach ($key in $JsonObject.Keys) {
+        if (-not $result.Contains($key)) {
+            $result[$key] = $JsonObject[$key]
+        }
+    }
+
+    return $result
+}
+
+if ($All) {
+    $manifests = Get-ChildItem "$root\bucket" -Recurse -File -Filter '*.json'
+}
+else {
+    $guid = [guid]::NewGuid()
+    $manifests = git -c core.safecrlf=false log --since="1 day ago" --name-only --pretty=format:"$guid%n" -- 'bucket/' |
+    ForEach-Object {
+        if ($_ -eq '') { return }
+        if ($_ -eq $guid) {
+            if ($current) {
+                $current
+            }
+            $current = @()
+        }
+        else {
+            $current += $_
+        }
+    } -End {
+        if ($current) {
+            $current
+        }
+    }
+    $trackedChanges = git -c core.safecrlf=false diff --name-only HEAD -- 'bucket/'
+    $untrackedChanges = git -c core.safecrlf=false ls-files --others --exclude-standard -- 'bucket/'
+    $manifests = @($manifests) + @($trackedChanges) + @($untrackedChanges) |
+    Where-Object { $_ -match '\.json$' -and (Test-Path $_) } |
+    Sort-Object -Unique
+}
+
+Write-Host 'Sorting JSON...'
+
+foreach ($m in $manifests) {
+    try {
+        $content = Get-Content $m -Raw -ErrorAction Stop
+        $json = $content | ConvertFrom-Json -AsHashtable -ErrorAction Stop
+    }
+    catch {
+        Write-Error "Failed to convert JSON: $_"
+        continue
+    }
+    $sortedJson = Sort-JsonByOrder -JsonObject $json -Order $order
+    $new = $sortedJson | ConvertToPrettyJson
+    if ($new -eq $content.Trim()) {
+        continue
+    }
+    Write-Host "Processing: $m"
+    Set-Content -LiteralPath $m -Value $new -Encoding utf8
+}

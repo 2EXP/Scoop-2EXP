@@ -1,0 +1,80 @@
+name: Update Manifests
+
+# Self-contained updater: it runs this bucket's own bin/checkver.ps1 on **official** Scoop,
+# so it depends on no third-party action and on no Scoop fork.
+#
+# - Manually dispatched runs default to `dry_run = true`: versions are only reported, nothing is written.
+# - Set `dry_run = false` to update the manifests, sort them and push.
+# - When it later runs on a schedule, `inputs` is empty (falsy), so the real update path runs.
+#
+# If the bucket grows, the check can be sharded with `-Segment '<a-b>'` and a job matrix,
+# and `bin\checkver.ps1` also supports -App, -ForceUpdate, -SkipUpdated, -MaxConcurrency, -TimeoutSec.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Only report the detected versions, do not write or push anything
+        type: boolean
+        default: true
+  # schedule:
+  #   - cron: '23 */6 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-manifests
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Check and update manifests
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 50
+
+      - name: Install Scoop (official)
+        shell: pwsh
+        run: |
+          $installer = Join-Path $env:RUNNER_TEMP 'install-scoop.ps1'
+          Invoke-WebRequest 'https://raw.githubusercontent.com/ScoopInstaller/Install/master/install.ps1' -OutFile $installer
+          & $installer -RunAsAdmin
+          $shims = Join-Path $env:USERPROFILE 'scoop\shims'
+          $env:Path = "$shims;$env:Path"
+          $shims | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+          "SCOOP_HOME=$(Join-Path $env:USERPROFILE 'scoop\apps\scoop\current')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          scoop --version
+
+      - name: Check versions (dry run)
+        if: ${{ inputs.dry_run }}
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          .\bin\checkver.ps1 -ThrowError
+          $changed = git status --porcelain
+          if ($changed) {
+            Write-Error ('Dry run unexpectedly modified files: ' + ($changed -join ', '))
+            exit 1
+          }
+          Write-Host 'Dry run finished: nothing was written.'
+
+      - name: Update versions
+        if: ${{ !inputs.dry_run }}
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          .\bin\checkver.ps1 -Update
+          .\script\sort-json.ps1 -All
+
+      - name: Commit and push
+        if: ${{ !inputs.dry_run }}
+        shell: pwsh
+        run: |
+          .\script\push-change.ps1 -message "(chore): automatically update manifests"

@@ -1,0 +1,863 @@
+﻿function A-Get-InstallDir {
+    if ($manifest.location) {
+        return A-Resolve-SpecialPath $manifest.location
+    }
+    return "$dir\app"
+}
+
+function A-Invoke-InstallerProcess {
+    <#
+    .SYNOPSIS
+        以静默方式运行安装器，等待其退出并校验退出码。
+
+    .DESCRIPTION
+        使用 System.Diagnostics.Process 直接启动进程，避免 Start-Process -PassThru
+        在 -WindowStyle Hidden / -NoNewWindow 下 ExitCode 不可靠的问题。
+        安装器允许的退出码为 0、1641（重启已启动）、3010（需要重启）。
+
+    .PARAMETER FilePath
+        安装器可执行文件路径。
+
+    .PARAMETER ArgumentList
+        参数数组。每个元素应当是"最终要传给程序的样子"，引号由调用方负责。
+        例如需要引号的路径应写成 '"D:\My App"' 而非 'D:\My App'。
+
+    .PARAMETER TimeoutSec
+        超时秒数，默认 600。
+    #>
+    param(
+        [Parameter(Mandatory)]
+        [string]$FilePath,
+        [array]$ArgumentList,
+        [int]$TimeoutSec = 600
+    )
+    if (!(A-Test-File $FilePath)) {
+        error "'$FilePath' not found."
+        A-Show-IssueCreationPrompt
+        A-Exit
+    }
+
+    Write-Host "Running the installer: $(Split-Path $FilePath -Leaf) $ArgumentList"
+
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = $FilePath
+    $psi.Arguments = if ($ArgumentList) { $ArgumentList -join ' ' } else { '' }
+    $psi.WorkingDirectory = Split-Path $FilePath -Parent
+    $psi.UseShellExecute = $false
+
+    $process = $null
+    try {
+        $process = [System.Diagnostics.Process]::Start($psi)
+
+        if (!$process.WaitForExit($TimeoutSec * 1000)) {
+            error "Installer timed out after $TimeoutSec seconds: $FilePath"
+            try { $process.Kill() } catch { }
+            A-Show-IssueCreationPrompt
+            A-Exit
+        }
+        $exitCode = $process.ExitCode
+        $allowedCodes = @(0, 1641, 3010)
+        if ($exitCode -notin $allowedCodes) {
+            error "Installer exited with code $exitCode : $FilePath"
+            A-Show-IssueCreationPrompt
+            A-Exit
+        }
+    }
+    catch {
+        error $_.Exception.Message
+        A-Show-IssueCreationPrompt
+        if ($process -and !$process.HasExited) {
+            try { $process.Kill() } catch { }
+        }
+        A-Exit
+    }
+    finally {
+        if ($process) { $process.Dispose() }
+    }
+}
+
+function A-Invoke-UninstallerProcess {
+    <#
+    .SYNOPSIS
+        以静默方式运行卸载器，等待其退出并校验退出码。
+
+    .DESCRIPTION
+        与 A-Invoke-InstallerProcess 类似，但允许的退出码不同：
+        0    - 成功
+        1605 - 产品未安装（视为已卸载，正常）
+        1641 - 重启已启动
+        3010 - 需要重启
+        此外，卸载器找不到文件时只警告不退出，避免影响批量卸载。
+    #>
+    param(
+        [Parameter(Mandatory)]
+        [string]$FilePath,
+        [array]$ArgumentList,
+        [int]$TimeoutSec = 600
+    )
+    if (!(A-Test-File $FilePath)) {
+        warn "'$FilePath' not found."
+        return
+    }
+
+    Write-Host "Running the uninstaller: $(Split-Path $FilePath -Leaf) $ArgumentList"
+
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = $FilePath
+    $psi.Arguments = if ($ArgumentList) { $ArgumentList -join ' ' } else { '' }
+    $psi.WorkingDirectory = Split-Path $FilePath -Parent
+    $psi.UseShellExecute = $false
+
+    $process = $null
+    try {
+        $process = [System.Diagnostics.Process]::Start($psi)
+        if (!$process.WaitForExit($TimeoutSec * 1000)) {
+            error "Uninstaller timed out after $TimeoutSec seconds: $FilePath"
+            try { $process.Kill() } catch { }
+            A-Show-IssueCreationPrompt
+            A-Exit
+        }
+        $exitCode = $process.ExitCode
+        $allowedCodes = @(0, 1605, 1641, 3010)
+        if ($exitCode -notin $allowedCodes) {
+            error "Uninstaller exited with code $exitCode : $FilePath"
+            A-Show-IssueCreationPrompt
+            A-Exit
+        }
+    }
+    catch {
+        error $_.Exception.Message
+        A-Show-IssueCreationPrompt
+        if ($process -and !$process.HasExited) {
+            try { $process.Kill() } catch { }
+        }
+        A-Exit
+    }
+    finally {
+        if ($process) { $process.Dispose() }
+    }
+}
+
+function A-Get-UninstallEntryByAppName {
+    param (
+        [string]$AppNamePattern
+    )
+    # 搜索注册表位置
+    $registryPaths = @(
+        'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall',
+        'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall',
+        'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
+    )
+    foreach ($path in $registryPaths) {
+        # 获取所有卸载项
+        $uninstallItems = Get-ChildItem -LiteralPath $path -ErrorAction SilentlyContinue | Get-ItemProperty -ErrorAction SilentlyContinue
+        foreach ($item in $uninstallItems) {
+            if ($null -ne $item.DisplayName -and $item.DisplayName -match $AppNamePattern) {
+                return $item
+            }
+        }
+    }
+}
+
+function A-Wait-Uninstaller {
+    param(
+        [string]$Path,
+        [int]$TimeoutMs = 5000
+    )
+    if (!$Path) { return }
+    $elapsed = 0
+    while (!(A-Test-File $Path) -and $elapsed -lt $TimeoutMs) {
+        Start-Sleep -Milliseconds 200
+        $elapsed += 200
+    }
+    if (!(A-Test-File $Path)) {
+        error "'$Path' not found."
+        A-Show-IssueCreationPrompt
+        A-Exit
+    }
+}
+
+function A-Wait-ForRelease {
+    param(
+        [string]$Path,
+        [int]$TimeoutSec = 30
+    )
+    $elapsed = 0
+    $interval = 500
+    while ($elapsed -lt $TimeoutSec * 1000) {
+        if (!(A-Test-Path $Path)) { return }
+        $busy = Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -like 'Un_*.exe' -and $_.CommandLine -like "*$Path*" }
+        if (!$busy) {
+            $locked = (Get-Process).Where({
+                    $procPath = $null
+                    try { $procPath = $_.Path } catch { $procPath = $null }
+                    $procPath -and $procPath.StartsWith($Path + '\', [System.StringComparison]::OrdinalIgnoreCase)
+                })
+            if (!$locked) { return }
+        }
+        Start-Sleep -Milliseconds $interval
+        $elapsed += $interval
+    }
+}
+
+function A-Install-App {
+    param(
+        [string]$Uninstaller, # 当指定它后，A-Uninstall-App 会默认使用它作为卸载程序路径
+        [array]$ArgumentList,
+        [string]$Installer = (Join-Path $dir ($fname | Select-Object -First 1)),
+        [int]$TimeoutSec = 600,
+        [switch]$UninstallerIsInstaller
+    )
+    $installDir = A-Get-InstallDir
+    if (!$PSBoundParameters.ContainsKey('ArgumentList')) {
+        $ArgumentList = @('/S')
+        if (!$manifest.admin) {
+            $ArgumentList += '/CurrentUser'
+        }
+        if (!$manifest.location) {
+            # NSIS 的 /D= 规则：必须放在所有参数最后，路径不能加引号（即使有空格）
+            $ArgumentList += "/D=$installDir"
+        }
+    }
+
+    A-Invoke-InstallerProcess -FilePath $Installer -ArgumentList $ArgumentList -TimeoutSec $TimeoutSec
+
+    if ($UninstallerIsInstaller) {
+        $Uninstaller = $Installer
+    }
+    else {
+        $Uninstaller = if ($manifest.location) { A-Get-AbsolutePath $Uninstaller $installDir } else { A-Get-AbsolutePath $Uninstaller }
+    }
+
+    @{
+        Installer    = $Installer
+        ArgumentList = $ArgumentList
+        Uninstaller  = $Uninstaller
+    } | ConvertTo-Json | Out-File -LiteralPath $scoop_2exp.path.InstallApp -Force -Encoding utf8
+
+    A-Wait-Uninstaller -Path $Uninstaller
+
+    try {
+        if ($Installer -and !$UninstallerIsInstaller -and (A-Test-File $Installer)) {
+            Remove-Item -LiteralPath $Installer -Force -ErrorAction Stop
+        }
+    }
+    catch {
+        error $_.Exception.Message
+    }
+
+    A-Repair-Link
+}
+
+function A-Uninstall-App {
+    param(
+        [string]$Uninstaller,
+        [array]$ArgumentList = @('/S')
+    )
+    $InstallerInfoPath = $scoop_2exp.path.InstallApp
+    if (A-Test-File $InstallerInfoPath) {
+        try {
+            $InstallerInfo = Get-Content -LiteralPath $InstallerInfoPath -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop
+        }
+        catch {
+            error $_.Exception.Message
+            return
+        }
+    }
+    else {
+        return
+    }
+    if (!$PSBoundParameters.ContainsKey('Uninstaller')) {
+        $Uninstaller = $InstallerInfo.Uninstaller
+    }
+    $Uninstaller = A-Get-AbsolutePath $Uninstaller
+    if (!$Uninstaller) {
+        return
+    }
+    $UninstallerFileName = Split-Path $Uninstaller -Leaf
+    if (!(A-Test-File $Uninstaller)) {
+        $_Uninstaller = Get-ChildItem -LiteralPath $dir -Filter $UninstallerFileName -Recurse -File -Force -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty FullName
+        if ($null -eq $_Uninstaller) {
+            return
+        }
+        if (!(A-Test-File $_Uninstaller)) {
+            warn "'$Uninstaller' not found."
+            return
+        }
+        $Uninstaller = $_Uninstaller
+    }
+    A-Invoke-UninstallerProcess -FilePath $Uninstaller -ArgumentList $ArgumentList
+    A-Wait-ForRelease -Path $dir
+}
+
+function A-Install-Inno {
+    param(
+        [string]$Uninstaller,
+        [array]$ArgumentList,
+        [string]$Installer = (Join-Path $dir ($fname | Select-Object -First 1)),
+        [int]$TimeoutSec = 600
+    )
+    $installDir = A-Get-InstallDir
+    $logPath = "$env:TEMP\Scoop_$($app)@$($version)_install_inno.log"
+    if (!$PSBoundParameters.ContainsKey('ArgumentList')) {
+        $ArgumentList = @(
+            '/CurrentUser',
+            '/VerySilent',
+            '/SuppressMsgBoxes',
+            '/NoRestart',
+            '/SP-',
+            "/Log=`"$logPath`"",
+            "/Dir=`"$installDir`""
+        )
+    }
+    A-Invoke-InstallerProcess -FilePath $Installer -ArgumentList $ArgumentList -TimeoutSec $TimeoutSec
+    if ($PSBoundParameters.ContainsKey('Uninstaller')) {
+        $Uninstaller = A-Get-AbsolutePath $Uninstaller
+    }
+    else {
+        $Uninstaller = Get-ChildItem -LiteralPath $installDir -Filter unins*.exe -Recurse -File -ErrorAction SilentlyContinue |
+        Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty FullName
+    }
+    @{
+        Installer    = $Installer
+        ArgumentList = $ArgumentList
+        Uninstaller  = $Uninstaller
+    } | ConvertTo-Json | Out-File -LiteralPath $scoop_2exp.path.InstallInno -Force -Encoding utf8
+    A-Wait-Uninstaller -Path $Uninstaller
+    try {
+        if ($Installer -and (A-Test-File $Installer)) {
+            Remove-Item -LiteralPath $Installer -Force -ErrorAction Stop
+        }
+    }
+    catch {
+        error $_.Exception.Message
+    }
+    Remove-Item -LiteralPath $logPath -Force -ErrorAction SilentlyContinue
+
+    A-Repair-Link
+}
+
+function A-Uninstall-Inno {
+    param(
+        [array]$ArgumentList = @(
+            '/VerySilent',
+            '/SuppressMsgBoxes',
+            '/NoRestart',
+            '/Force'
+        )
+    )
+    $Uninstaller = Get-ChildItem -LiteralPath $dir -Filter unins000.exe -Recurse -File -Force -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty FullName
+    if (!$Uninstaller) {
+        warn "'unins000.exe' not found."
+        return
+    }
+    A-Invoke-UninstallerProcess -FilePath $Uninstaller -ArgumentList $ArgumentList
+}
+
+function A-Install-Burn {
+    param(
+        [array]$ArgumentList,
+        [string]$Installer = (Join-Path $dir ($fname | Select-Object -First 1)),
+        [int]$TimeoutSec = 600
+    )
+    $logPath = "$env:TEMP\Scoop_$($app)@$($version)_install_burn.log"
+    if (!$PSBoundParameters.ContainsKey('ArgumentList')) {
+        $ArgumentList = @('/quiet', '/norestart', '/log', "`"$logPath`"")
+    }
+
+    A-Invoke-InstallerProcess -FilePath $Installer -ArgumentList $ArgumentList -TimeoutSec $TimeoutSec
+
+    $log = Get-Content -LiteralPath $logPath -ErrorAction SilentlyContinue
+    $guid = $log | Select-String 'WixBundleProviderKey = ([0-9A-Fa-f\-]{36})' | ForEach-Object { $_.Matches.Groups[1].Value } | Select-Object -First 1
+    if (!$guid) {
+        $guid = $log | Select-String 'SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\\{([0-9A-Fa-f\-]{36})\}' | ForEach-Object { $_.Matches.Groups[1].Value } | Select-Object -First 1
+    }
+    $Uninstaller = $null
+    if ($guid) {
+        $Uninstaller = Get-ChildItem -LiteralPath "$env:ProgramData\Package Cache\{$guid}" -File -Filter *.exe -Force -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
+    }
+    else {
+        warn "Cannot extract GUID from Burn log: $logPath"
+    }
+    if (!$Uninstaller) {
+        $Uninstaller = $Installer
+    }
+    @{
+        Installer    = $Installer
+        ArgumentList = $ArgumentList
+        Uninstaller  = $Uninstaller
+    } | ConvertTo-Json | Out-File -LiteralPath $scoop_2exp.path.InstallBurn -Force -Encoding utf8
+
+    A-Wait-Uninstaller -Path $Uninstaller
+
+    Remove-Item -LiteralPath $logPath -Force -ErrorAction SilentlyContinue
+
+    A-Repair-Link
+}
+
+function A-Uninstall-Burn {
+    param(
+        [array]$ArgumentList = @('/uninstall', '/quiet')
+    )
+    $InstallerInfoPath = $scoop_2exp.path.InstallBurn
+    if (A-Test-File $InstallerInfoPath) {
+        try {
+            $InstallerInfo = Get-Content -LiteralPath $InstallerInfoPath -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop
+        }
+        catch {
+            error $_.Exception.Message
+            return
+        }
+    }
+    else {
+        return
+    }
+    $Uninstaller = $InstallerInfo.Uninstaller
+    if (A-Test-File $Uninstaller) {
+        A-Invoke-UninstallerProcess -FilePath $Uninstaller -ArgumentList $ArgumentList
+    }
+    else {
+        warn "'$Uninstaller' not found."
+    }
+}
+
+function A-Install-Msi {
+    param(
+        [array]$ArgumentList,
+        [string]$Installer,
+        [string]$MsiPath,
+        [int]$TimeoutSec = 600
+    )
+    if (!$Installer) {
+        $Installer = 'C:\Windows\SysWOW64\msiexec.exe', 'C:\Windows\System32\msiexec.exe' | Where-Object { [System.IO.File]::Exists($_) } | Select-Object -First 1
+    }
+    if (!$MsiPath) {
+        $MsiPath = Join-Path $dir ($fname | Select-Object -First 1)
+    }
+    $logPath = "$env:TEMP\Scoop_$($app)@$($version)_install_msi.log"
+    if (!$PSBoundParameters.ContainsKey('ArgumentList')) {
+        $ArgumentList = @(
+            '/i',
+            "`"$MsiPath`"",
+            # '/passive',
+            '/quiet',
+            '/norestart',
+            '/lvx*',
+            "`"$logPath`""
+        )
+    }
+
+    A-Invoke-InstallerProcess -FilePath $Installer -ArgumentList $ArgumentList -TimeoutSec $TimeoutSec
+
+    if ($MsiPath -and (A-Test-File $MsiPath)) {
+        $deleted = $false
+        for ($i = 0; $i -lt 5; $i++) {
+            try {
+                Remove-Item -LiteralPath $MsiPath -Force -ErrorAction Stop
+                $deleted = $true
+                break
+            }
+            catch {
+                Start-Sleep -Milliseconds 500
+            }
+        }
+        if (!$deleted) {
+            warn "Cannot delete '$MsiPath'. It may be locked by msiexec."
+        }
+    }
+
+    $log = Get-Content -LiteralPath $logPath -ErrorAction SilentlyContinue
+    $productCode = $log | Select-String 'ProductCode = (.+)' | ForEach-Object { $_.Matches.Groups[1].Value.Trim() } | Select-Object -First 1
+    $productName = $log | Select-String 'ProductName = (.+)' | ForEach-Object { $_.Matches.Groups[1].Value.Trim() } | Select-Object -First 1
+    $productVersion = $log | Select-String 'ProductVersion = (.+)' | ForEach-Object { $_.Matches.Groups[1].Value.Trim() } | Select-Object -First 1
+    $manufacturer = $log | Select-String 'Manufacturer = (.+)' | ForEach-Object { $_.Matches.Groups[1].Value.Trim() } | Select-Object -First 1
+
+    if (!$productCode) {
+        warn 'Cannot parse ProductCode from MSI log (possibly localized). Fallback to registry query.'
+        $entry = A-Get-UninstallEntryByAppName -AppNamePattern ([regex]::Escape($app))
+        if ($entry) {
+            $productCode = $entry.PSChildName
+            if (!$productName) { $productName = $entry.DisplayName }
+            if (!$productVersion) { $productVersion = $entry.DisplayVersion }
+            if (!$manufacturer) { $manufacturer = $entry.Publisher }
+        }
+    }
+
+    if (!$productCode) {
+        warn "Cannot determine ProductCode for '$app'. Uninstall may fail."
+    }
+
+    @{
+        Installer      = $Installer
+        Uninstaller    = $Installer
+        ProductCode    = $productCode
+        ProductName    = $productName
+        ProductVersion = $productVersion
+        Manufacturer   = $manufacturer
+        ArgumentList   = $ArgumentList
+    } | ConvertTo-Json | Out-File -LiteralPath $scoop_2exp.path.InstallMsi -Force -Encoding utf8
+
+    Remove-Item -LiteralPath $logPath -Force -ErrorAction SilentlyContinue
+
+    A-Repair-Link
+}
+
+function A-Uninstall-Msi {
+    param(
+        [array]$ArgumentList
+    )
+    # msi 直接覆盖安装，无需卸载
+    if ($cmd -eq 'update') { return }
+    $InstallerInfoPath = $scoop_2exp.path.InstallMsi
+    if (A-Test-File $InstallerInfoPath) {
+        try {
+            $InstallerInfo = Get-Content -LiteralPath $InstallerInfoPath -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop
+        }
+        catch {
+            error $_.Exception.Message
+            return
+        }
+    }
+    else {
+        return
+    }
+    $Uninstaller = $InstallerInfo.Uninstaller
+    if (!$Uninstaller) {
+        return
+    }
+    $UninstallerFileName = Split-Path $Uninstaller -Leaf
+    if (!(A-Test-File $Uninstaller)) {
+        warn "'$Uninstaller' not found."
+        return
+    }
+
+    $recordedProductCode = $InstallerInfo.ProductCode
+    $recordedProductName = $InstallerInfo.ProductName
+
+    $ProductCode = $null
+    $registryPaths = @(
+        'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall',
+        'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall',
+        'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
+    )
+    :outerLoop foreach ($path in $registryPaths) {
+        $uninstallKeys = Get-ChildItem -LiteralPath $path -ErrorAction SilentlyContinue
+        foreach ($key in $uninstallKeys) {
+            $item = Get-ItemProperty -LiteralPath $key.PSPath -ErrorAction SilentlyContinue
+            if (!$item) { continue }
+
+            # 1. 注册表项自身有 ProductCode 且与记录匹配
+            if ($recordedProductCode -and $item.ProductCode -and $item.ProductCode -eq $recordedProductCode) {
+                $ProductCode = $item.ProductCode
+                break outerLoop
+            }
+            # 2. DisplayName 与记录匹配（最可靠的回退）
+            if ($recordedProductName -and $item.DisplayName -and $item.DisplayName -eq $recordedProductName) {
+                $ProductCode = $key.PSChildName
+                break outerLoop
+            }
+            # 3. UninstallString 中包含记录的 ProductCode
+            if ($recordedProductCode -and $item.UninstallString -and $item.UninstallString -match [regex]::Escape($recordedProductCode)) {
+                $ProductCode = $recordedProductCode
+                break outerLoop
+            }
+        }
+    }
+    if (!$ProductCode) {
+        error "Cannot find product code of '$app'"
+        return
+    }
+    if (!$PSBoundParameters.ContainsKey('ArgumentList')) {
+        $ArgumentList = @(
+            '/x',
+            "$ProductCode",
+            '/quiet',
+            '/norestart'
+        )
+    }
+    A-Invoke-UninstallerProcess -FilePath $Uninstaller -ArgumentList $ArgumentList
+}
+
+function A-Uninstall-Manually {
+    param(
+        [array]$Paths
+    )
+    if ($manifest.location) {
+        $Paths += A-Resolve-SpecialPath $manifest.location
+    }
+    foreach ($p in $Paths) {
+        $p = A-Get-AbsolutePath $p
+        if (A-Test-Path $p) {
+            if (!(A-Test-DirectoryNotEmpty $p)) {
+                try {
+                    Remove-Item -LiteralPath $p -Force -Recurse -ErrorAction Stop
+                    continue
+                }
+                catch {}
+            }
+            error 'It requires you to uninstall it manually.'
+            error $p
+            error 'Refer to: https://abyss.abgox.com/docs/uninstall-manually'
+            A-Exit
+        }
+    }
+}
+
+function A-Install-MsixPackage {
+    <#
+    .SYNOPSIS
+        安装 AppX/Msix 包
+    #>
+    param(
+        # 包名，例如：Microsoft.PowerShellPreview_8wekyb3d8bbwe
+        [string]$PackageFamilyName = $manifest.msix,
+        [string]$Installer = (Join-Path $dir ($fname | Select-Object -First 1))
+    )
+    A-Add-AppxPackage -PackageFamilyName $PackageFamilyName -Path $Installer
+}
+
+function A-Uninstall-MsixPackage {
+    param(
+        [string]$PackageFamilyName = $manifest.msix
+    )
+    A-Remove-AppxPackage -PackageFamilyName $PackageFamilyName
+}
+
+function A-Add-AppxPackage {
+    <#
+    .SYNOPSIS
+        安装 AppX/Msix 包并记录安装信息供 Scoop 管理
+
+    .DESCRIPTION
+        该函数使用 Add-AppxPackage 命令安装应用程序包 (.appx 或 .msix)，
+        然后创建一个 JSON 文件用于 Scoop 管理安装信息。
+
+    .PARAMETER PackageFamilyName
+        应用程序包的 PackageFamilyName
+
+    .PARAMETER Path
+        要安装的 AppX/Msix 包的文件路径。
+
+    .EXAMPLE
+        A-Add-AppxPackage -Path "D:\dl.msixbundle"
+    #>
+    param(
+        [string]$PackageFamilyName,
+        [string]$Path
+    )
+    $params = @{
+        Path        = $Path
+        ErrorAction = 'Stop'
+    }
+    $advancedFeatures = @(
+        'ForceApplicationShutdown',
+        'ForceUpdateFromAnyVersion',
+        'AllowUnsigned'
+    )
+    $supportedKeys = (Get-Command Add-AppxPackage).Parameters.Keys
+    foreach ($key in $advancedFeatures) {
+        if ($supportedKeys -contains $key) {
+            $params[$key] = $true
+        }
+    }
+    try {
+        Add-AppxPackage @params
+    }
+    catch {
+        error $_.Exception.Message
+        A-Show-IssueCreationPrompt
+        A-Exit
+    }
+}
+
+function A-Remove-AppxPackage {
+    <#
+    .SYNOPSIS
+        移除 AppX/Msix 包
+
+    .DESCRIPTION
+        该函数使用 Remove-AppxPackage 命令移除应用程序包 (.appx 或 .msixbundle)
+
+    .PARAMETER PackageFamilyName
+        应用程序包的 PackageFamilyName
+    #>
+    param(
+        [string]$PackageFamilyName
+    )
+    $package = Get-AppxPackage | Where-Object { $_.PackageFamilyName -eq $PackageFamilyName } | Select-Object -First 1
+    if ($package) {
+        if ($package.InstallLocation) {
+            Get-Process | Where-Object { $_.Path -and $_.Path -like "*$($package.InstallLocation)*" } | Stop-Process -Force -ErrorAction SilentlyContinue
+        }
+        $params = @{
+            Package = $package
+        }
+        $supportedKeys = (Get-Command Remove-AppxPackage).Parameters.Keys
+        if ($supportedKeys -contains 'PreserveRoamableApplicationData') {
+            $params['PreserveRoamableApplicationData'] = $true
+        }
+        Remove-AppxPackage @params
+    }
+}
+
+function A-Install-Font {
+    <#
+    .SYNOPSIS
+        安装字体
+
+    .DESCRIPTION
+        安装字体
+
+    .PARAMETER FontType
+        字体类型，支持 ttf, otf, ttc
+        如果未指定字体类型，则根据字体文件扩展名自动判断
+    #>
+    param(
+        [ValidateSet('ttf', 'otf', 'ttc')]
+        [string]$FontType
+    )
+    $ExtMap = @{
+        '.ttf' = 'TrueType'
+        '.otf' = 'OpenType'
+        '.ttc' = 'TrueType'
+    }
+    if (!$FontType) {
+        $fontFile = Get-ChildItem -LiteralPath $dir -Recurse -File -Force -ErrorAction SilentlyContinue
+        foreach ($file in $fontFile) {
+            if ($file.Extension -in $ExtMap.Keys) {
+                $FontType = $file.Extension.TrimStart('.')
+                break
+            }
+        }
+    }
+    $filter = "*.$FontType"
+    $currentBuildNumber = [int] (Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -ErrorAction SilentlyContinue).CurrentBuildNumber
+    $windows10Version1809BuildNumber = 17763
+    $isPerUserFontInstallationSupported = $currentBuildNumber -ge $windows10Version1809BuildNumber
+    if (!$isPerUserFontInstallationSupported -and !$global) {
+        Microsoft.PowerShell.Utility\Write-Host
+        error "For Windows version before Windows 10 Version 1809 (OS Build 17763), Font can only be installed for all users.`nPlease use following commands to install '$app' Font for all users."
+        Microsoft.PowerShell.Utility\Write-Host
+        Microsoft.PowerShell.Utility\Write-Host '        scoop install sudo'
+        Microsoft.PowerShell.Utility\Write-Host "        sudo scoop install -g $app"
+        Microsoft.PowerShell.Utility\Write-Host
+        A-Exit
+    }
+    $fontInstallDir = if ($global) { "$env:windir\Fonts" } else { "$env:LocalAppData\Microsoft\Windows\Fonts" }
+    if (!$global) {
+        # Ensure user font install directory exists and has correct permission settings
+        # See https://github.com/matthewjberger/scoop-nerd-fonts/issues/198#issuecomment-1488996737
+        New-Item $fontInstallDir -ItemType Directory -ErrorAction SilentlyContinue | Out-Null
+        $accessControlList = Get-Acl $fontInstallDir
+        $allApplicationPackagesAccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule([System.Security.Principal.SecurityIdentifier]::new('S-1-15-2-1'), 'ReadAndExecute', 'ContainerInherit,ObjectInherit', 'None', 'Allow')
+        $allRestrictedApplicationPackagesAccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule([System.Security.Principal.SecurityIdentifier]::new('S-1-15-2-2'), 'ReadAndExecute', 'ContainerInherit,ObjectInherit', 'None', 'Allow')
+        $accessControlList.SetAccessRule($allApplicationPackagesAccessRule)
+        $accessControlList.SetAccessRule($allRestrictedApplicationPackagesAccessRule)
+        Set-Acl -AclObject $accessControlList $fontInstallDir
+    }
+    $registryRoot = if ($global) { 'HKLM' } else { 'HKCU' }
+    $registryKey = "${registryRoot}:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
+    $fonts = [System.Drawing.Text.PrivateFontCollection]::new()
+    $allFonts = Get-ChildItem -LiteralPath $dir -Filter $filter -Recurse -File -Force -ErrorAction SilentlyContinue
+    if (!$allFonts) {
+        error "No font file found in '$dir' with extension '$filter'"
+        A-Show-IssueCreationPrompt
+        A-Exit
+    }
+    $allFonts | ForEach-Object {
+        $value = if ($global) { $_.Name } else { "$fontInstallDir\$($_.Name)" }
+        try {
+            New-ItemProperty -LiteralPath $registryKey -Name $_.Name.Replace($_.Extension, " ($($ExtMap[$_.Extension]))") -Value $value -Force -ErrorAction Stop | Out-Null
+            Copy-Item -LiteralPath $_.FullName -Destination $fontInstallDir -Force -ErrorAction Stop
+            $fonts.AddFontFile($_.FullName)
+        }
+        catch {
+            error $_.Exception.Message
+            A-Exit
+        }
+    }
+    @{
+        FontType = $FontType
+        FontName = $fonts.Families | Select-Object -ExpandProperty Name
+    } | ConvertTo-Json | Out-File -LiteralPath $scoop_2exp.path.Font -Force -Encoding utf8
+    $fonts.Dispose()
+}
+
+function A-Uninstall-Font {
+    $OutFile = $scoop_2exp.path.Font
+    if (!(A-Test-File $OutFile)) { return }
+    try { $FontType = Get-Content -LiteralPath $OutFile -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop | Select-Object -ExpandProperty FontType } catch { return }
+    $filter = "*.$FontType"
+    $ExtMap = @{
+        '.ttf' = 'TrueType'
+        '.otf' = 'OpenType'
+        '.ttc' = 'TrueType'
+    }
+    $fontInstallDir = if ($global) { "$env:windir\Fonts" } else { "$env:LocalAppData\Microsoft\Windows\Fonts" }
+    Get-ChildItem -LiteralPath $dir -Filter $filter -Recurse -File -Force -ErrorAction SilentlyContinue | ForEach-Object {
+        Get-ChildItem -LiteralPath $fontInstallDir -Filter $_.Name -File -Force -ErrorAction SilentlyContinue | ForEach-Object {
+            try {
+                Rename-Item -LiteralPath $_.FullName -NewName $_.Name -ErrorVariable LockError -ErrorAction Stop
+            }
+            catch {
+                error "Cannot uninstall '$app' font.`nIt is currently being used by another application.`nPlease close all applications that are using it (e.g. vscode) and try again."
+                A-Exit
+            }
+        }
+    }
+    $registryRoot = if ($global) { 'HKLM' } else { 'HKCU' }
+    $registryKey = "${registryRoot}:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
+    Get-ChildItem -LiteralPath $dir -Filter $filter -Recurse -File -Force -ErrorAction SilentlyContinue | ForEach-Object {
+        Remove-ItemProperty -LiteralPath $registryKey -Name $_.Name.Replace($_.Extension, " ($($ExtMap[$_.Extension]))") -Force -ErrorAction SilentlyContinue
+        Remove-Item -LiteralPath "$fontInstallDir\$($_.Name)" -Force -ErrorAction SilentlyContinue
+    }
+    if ($cmd -eq 'uninstall') {
+        warn "The '$app' Font family has been uninstalled successfully, but there may be system cache that needs to be restarted to fully remove."
+    }
+    Remove-Item -LiteralPath $OutFile -Force -ErrorAction SilentlyContinue
+}
+
+function A-Install-PowerToysRunPlugin {
+    param(
+        [string]$PluginName
+    )
+    $PluginsDir = "$env:LocalAppData\Microsoft\PowerToys\PowerToys Run\Plugins"
+    $PluginPath = "$PluginsDir\$PluginName"
+    try {
+        if (A-Test-Path $PluginPath) {
+            Write-Host "Removing $PluginPath"
+            A-Remove-ToRecycleBin $PluginPath -ErrorAction Stop
+        }
+        $CopyingPath = if (A-Test-Directory "$dir\$PluginName") { "$dir\$PluginName" } else { $dir }
+        A-Ensure-Directory (Split-Path $PluginPath -Parent)
+        Write-Host "Copying $CopyingPath => $PluginPath"
+        A-Copy-Item $CopyingPath $PluginPath
+
+        @{ PluginName = $PluginName } | ConvertTo-Json | Out-File -LiteralPath $scoop_2exp.path.PowerToysRunPlugin -Force -Encoding utf8
+    }
+    catch {
+        error $_.Exception.Message
+        A-Show-IssueCreationPrompt
+        A-Exit
+    }
+}
+
+function A-Uninstall-PowerToysRunPlugin {
+    $OutFile = $scoop_2exp.path.PowerToysRunPlugin
+    if (!(A-Test-File $OutFile)) { return }
+    $PluginsDir = "$env:LocalAppData\Microsoft\PowerToys\PowerToys Run\Plugins"
+    try {
+        $PluginName = Get-Content -LiteralPath $OutFile -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop | Select-Object -ExpandProperty PluginName
+        $PluginPath = "$PluginsDir\$PluginName"
+        if (A-Test-Path $PluginPath) {
+            Write-Host "Removing $PluginPath"
+            Remove-Item -LiteralPath $PluginPath -Recurse -Force -ErrorAction Stop
+            Remove-Item -LiteralPath $OutFile -Force -ErrorAction SilentlyContinue
+        }
+    }
+    catch {
+        error $_.Exception.Message
+        A-Show-IssueCreationPrompt
+        A-Exit
+    }
+}

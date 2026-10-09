@@ -1,0 +1,24 @@
+name: 🔢 Hash Error
+description: Open an issue about a package's hash is incorrect.
+title: "xxx@x.x.x: hash check failed"
+labels: ["bug"]
+body:
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      options:
+        - label: |
+            I have used the predefined issue title.
+              format: `package@version: hash check failed`
+              example: `YomikoR.VapourSynth-Editor@19-mod-6.10: hash check failed`
+          required: true
+        - label: I have verified that I am using the latest version of Scoop and 2exp bucket.
+          required: true
+        - label: I have verified that this issue was created on GitHub.
+
+  - type: textarea
+    attributes:
+      label: Any information?
+      description: Your console output or other additional information.
+    validations:
+      required: false

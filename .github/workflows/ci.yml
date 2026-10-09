@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  sort-json:
+    name: Sort JSON and Push
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 50
+
+      - name: Sort JSON and Push
+        shell: pwsh
+        run: |
+          $manual = "${{ github.event_name }}" -eq "workflow_dispatch"
+          .\script\sort-json.ps1 -All:$manual
+          .\script\push-change.ps1 -message "(chore): automatically sort json [skip ci]"

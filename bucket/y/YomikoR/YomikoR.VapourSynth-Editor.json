@@ -1,0 +1,75 @@
+{
+    "version": "19-mod-6.10",
+    "description": "VapourSynth 脚本编辑器与预览器 YomikoR 修改版 | An editor for editing and previewing VapourSynth scripts (YomikoR mod)",
+    "homepage": "https://github.com/YomikoR/VapourSynth-Editor",
+    "license": {
+        "identifier": "MIT"
+    },
+    "notes_cn": "需要 VapourSynth R74 或更高版本 (API 4.x) 以及最新的 Microsoft Visual C++ 运行库，详见 release 说明。便携设置保存在 app\\vsedit.config 中，已持久化到 $persist_dir",
+    "notes": "Requires VapourSynth R74 or later (API 4.x) and the latest Microsoft Visual C++ Redistributable, see the release notes. Portable settings are kept in app\\vsedit.config, persisted to $persist_dir",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/YomikoR/VapourSynth-Editor/releases/download/R19-mod-6.10/VapourSynth.Editor-r19-mod-6.10.7z",
+            "hash": "b1505ced5abdc804337a655bfeaa1406b3c855969963a50e22210a4e3553b0c9"
+        }
+    },
+    "extract_to": "app",
+    "bin": [
+        "app\\vsedit.exe",
+        "app\\vsedit-previewer.exe"
+    ],
+    "shortcuts": [
+        [
+            "app\\vsedit.exe",
+            "VapourSynth Editor"
+        ],
+        [
+            "app\\vsedit-previewer.exe",
+            "VSEdit Previewer"
+        ],
+        [
+            "app\\vsedit-job-server-watcher.exe",
+            "VSEdit Server Watcher"
+        ]
+    ],
+    "persist": [
+        [
+            "app\\vsedit.config",
+            "vsedit.config"
+        ]
+    ],
+    "pre_install": [
+        "if (!$bucket) { $bucket = '2exp' }",
+        ". $bucketsdir\\$bucket\\util\\_.ps1",
+        "A-Start-Install"
+    ],
+    "post_install": [
+        "if (!$bucket) { $bucket = '2exp' }",
+        ". $bucketsdir\\$bucket\\util\\_.ps1",
+        "A-Complete-Install"
+    ],
+    "pre_uninstall": [
+        "if (!$bucket) { $bucket = '2exp' }",
+        ". $bucketsdir\\$bucket\\util\\_.ps1",
+        "A-Start-Uninstall",
+        "A-Stop-Process"
+    ],
+    "post_uninstall": [
+        "if (!$bucket) { $bucket = '2exp' }",
+        ". $bucketsdir\\$bucket\\util\\_.ps1",
+        "A-Complete-Uninstall"
+    ],
+    "checkver": {
+        "github": {
+            "channel": "latest"
+        },
+        "regex": "(?i)^R([\\d.]+-mod-[\\d.]+)$"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/YomikoR/VapourSynth-Editor/releases/download/R$version/VapourSynth.Editor-r$version.7z"
+            }
+        }
+    }
+}
