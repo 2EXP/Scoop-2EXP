@@ -4,6 +4,12 @@ on:
   issues:
     types: [opened]
 
+# The handler comments, labels and closes issues, commits hash fixes and can open a PR for them.
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   issue-handler:
     name: Issue Handler
@@ -16,7 +22,6 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
 
       - name: Issue Handler
-        # uses: ScoopInstaller/GitHubActions@main
-        uses: abgox/ScoopInstaller-GitHubActions@abyss
+        uses: ScoopInstaller/GitHubActions@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
