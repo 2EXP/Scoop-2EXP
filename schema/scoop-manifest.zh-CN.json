@@ -4132,7 +4132,7 @@
         },
         "autoupdate": {
             "title": "自动更新",
-            "markdownDescription": "- 它用于配置清单的自动更新规则，需要搭配 `checkver`\n- 远程仓库会通过 [GitHub Actions](https://github.com/abgox/ScoopInstaller-GitHubActions) 定期运行 `checkver`\n- 更新时会替换清单中对应的字段\n  - `url`\n  - `extract_dir`\n  - `bin`\n  - `shortcuts`\n  - ...",
+            "markdownDescription": "- 它用于配置清单的自动更新规则，需要搭配 `checkver`\n- 远程仓库会通过 [GitHub Actions](https://github.com/2EXP/scoop-2exp/blob/main/.github/workflows/update-manifests.yml) 运行 `checkver`\n- 更新时会替换清单中对应的字段\n  - `url`\n  - `extract_dir`\n  - `bin`\n  - `shortcuts`\n  - ...",
             "type": "object",
             "minProperties": 1,
             "additionalProperties": false,

@@ -4132,7 +4132,7 @@
         },
         "autoupdate": {
             "title": "Auto Update",
-            "markdownDescription": "- It is used to configure the manifest's auto-update rules, and requires `checkver` to be configured alongside it\n- The remote repository runs `checkver` on a schedule via [GitHub Actions](https://github.com/abgox/ScoopInstaller-GitHubActions)\n- When an update runs, it replaces the corresponding fields in the manifest\n  - `url`\n  - `extract_dir`\n  - `bin`\n  - `shortcuts`\n  - ...",
+            "markdownDescription": "- It is used to configure the manifest's auto-update rules, and requires `checkver` to be configured alongside it\n- The remote repository runs `checkver` via [GitHub Actions](https://github.com/2EXP/scoop-2exp/blob/main/.github/workflows/update-manifests.yml)\n- When an update runs, it replaces the corresponding fields in the manifest\n  - `url`\n  - `extract_dir`\n  - `bin`\n  - `shortcuts`\n  - ...",
             "type": "object",
             "minProperties": 1,
             "additionalProperties": false,
