@@ -5,7 +5,7 @@ name: Update Manifests
 #
 # - Manually dispatched runs default to `dry_run = false`: versions are updated, sorted and pushed.
 # - Set `dry_run = true` to only report the detected versions (nothing is written or pushed).
-# - When it later runs on a schedule, `inputs` is empty (falsy), so the real update path runs.
+# - Scheduled runs have no inputs (falsy), so the real update path runs automatically.
 #
 # If the bucket grows, the check can be sharded with `-Segment '<a-b>'` and a job matrix,
 # and `bin\checkver.ps1` also supports -App, -ForceUpdate, -SkipUpdated, -MaxConcurrency, -TimeoutSec.
@@ -17,8 +17,9 @@ on:
         description: Only report the detected versions, do not write or push anything
         type: boolean
         default: false
-  # schedule:
-  #   - cron: '23 */6 * * *'
+  schedule:
+    # UTC, 4 runs a day (08:23 / 14:23 / 20:23 / 02:23 in UTC+8)
+    - cron: '23 */6 * * *'
 
 permissions:
   contents: write
