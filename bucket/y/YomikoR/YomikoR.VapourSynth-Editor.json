@@ -1,5 +1,5 @@
 {
-    "version": "19-mod-6.10",
+    "version": "19-mod-6.9",
     "description": "VapourSynth 脚本编辑器与预览器 YomikoR 修改版 | An editor for editing and previewing VapourSynth scripts (YomikoR mod)",
     "homepage": "https://github.com/YomikoR/VapourSynth-Editor",
     "license": {
@@ -9,8 +9,8 @@
     "notes": "Requires VapourSynth R74 or later (API 4.x) and the latest Microsoft Visual C++ Redistributable, see the release notes. Portable settings are kept in app\\vsedit.config, persisted to $persist_dir",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/YomikoR/VapourSynth-Editor/releases/download/R19-mod-6.10/VapourSynth.Editor-r19-mod-6.10.7z",
-            "hash": "b1505ced5abdc804337a655bfeaa1406b3c855969963a50e22210a4e3553b0c9"
+            "url": "https://github.com/YomikoR/VapourSynth-Editor/releases/download/R19-mod-6.9/VapourSynth.Editor-r19-mod-6.9.7z",
+            "hash": "b07576dad7afdf04340e80d83a03ae6972cc5b6dd8b9bdf076927f270cbc1bc6"
         }
     },
     "extract_to": "app",
